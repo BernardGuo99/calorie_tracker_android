@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.Controller;
+package com.example.calorietrackerapp.controller;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
