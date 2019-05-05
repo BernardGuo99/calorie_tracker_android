@@ -268,7 +268,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            return "cccc";
+            return "cccccccccc";
         }
     }
 }
