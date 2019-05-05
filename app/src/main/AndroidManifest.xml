@@ -12,6 +12,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".controller.SignUpActivity"
+            android:label="@string/sign_up"
+            android:parentActivityName=".controller.AuthUserActivity"></activity>
+        <activity
             android:name=".controller.LoginActivity"
             android:label="@string/log_in"
             android:parentActivityName=".controller.AuthUserActivity" />
