@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.controller;
+package com.example.calorietrackerapp.controller.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

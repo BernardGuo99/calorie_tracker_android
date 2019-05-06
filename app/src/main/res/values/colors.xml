@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF3300</color>
     <color name="colorAuthTitle">#FF3300</color>
     <color name="btnColor1">#FFFFFF</color>
+    <color name="lightgGreen">#66c1c1</color>
+    <color name="darkGreen">#009999</color>
 </resources>

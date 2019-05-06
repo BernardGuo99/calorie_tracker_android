@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -21,7 +22,8 @@
                 android:id="@+id/inputLayoutUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextLabel">
+                android:theme="@style/TextLabel"
+                app:errorTextAppearance="@style/error_appearance">
 
                 <EditText
                     android:id="@+id/username"
@@ -36,7 +38,8 @@
                 android:id="@+id/inputLayoutEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextLabel">
+                android:theme="@style/TextLabel"
+                app:errorTextAppearance="@style/error_appearance">
 
                 <EditText
                     android:id="@+id/email"
@@ -51,7 +54,8 @@
                 android:id="@+id/inputLayoutPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextLabel">
+                android:theme="@style/TextLabel"
+                app:errorTextAppearance="@style/error_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/password"
@@ -92,15 +96,25 @@
                         android:text="FIRST NAME"
                         android:textSize="@dimen/form_head_size" />
 
-                    <EditText
-                        android:id="@+id/first_name"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textMultiLine"
-                        android:overScrollMode="always"
-                        android:scrollbarStyle="insideInset"
-                        android:scrollbars="vertical"
-                        android:theme="@style/LineColor" />
+                        android:theme="@style/TextLabel"
+                        app:errorTextAppearance="@style/error_appearance">
+
+                        <EditText
+                            android:id="@+id/first_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:overScrollMode="always"
+                            android:scrollbarStyle="insideInset"
+                            android:scrollbars="vertical"
+                            android:theme="@style/LineColor" />
+
+                    </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,11 +131,22 @@
                         android:text="SURNAME"
                         android:textSize="@dimen/form_head_size" />
 
-                    <EditText
-                        android:id="@+id/surname"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutSurname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/LineColor" />
+                        android:theme="@style/TextLabel"
+                        app:errorTextAppearance="@style/error_appearance">
+
+
+                        <EditText
+                            android:id="@+id/surname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/LineColor" />
+                    </android.support.design.widget.TextInputLayout>
+
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -132,12 +157,21 @@
                 android:text="BIRTHDAY"
                 android:textSize="@dimen/form_head_size" />
 
-            <EditText
-                android:id="@+id/birthday"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:theme="@style/LineColor" />
+                android:theme="@style/TextLabel"
+                app:errorTextAppearance="@style/error_appearance">
+
+                <EditText
+                    android:id="@+id/birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:theme="@style/LineColor" />
+            </android.support.design.widget.TextInputLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,12 +193,21 @@
                         android:text="HEIGHT (CM)"
                         android:textSize="@dimen/form_head_size" />
 
-                    <EditText
-                        android:id="@+id/height"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutHeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:theme="@style/LineColor" />
+                        android:theme="@style/TextLabel"
+                        app:errorTextAppearance="@style/error_appearance">
+
+                        <EditText
+                            android:id="@+id/height"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:theme="@style/LineColor" />
+                    </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -181,14 +224,25 @@
                         android:text="WEIGHT (KG)"
                         android:textSize="@dimen/form_head_size" />
 
-                    <EditText
-                        android:id="@+id/weight"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:theme="@style/LineColor" />
+                        android:theme="@style/TextLabel"
+                        app:errorTextAppearance="@style/error_appearance">
+
+                        <EditText
+                            android:id="@+id/weight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:theme="@style/LineColor" />
+
+                    </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_gender"
@@ -203,18 +257,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/radio_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male" />
+                    android:theme="@style/TextLabel"
+                    app:errorTextAppearance="@style/error_appearance"
+                    android:text="Male"
+                    android:checked="true"/>
 
-                <RadioButton
+                <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/radio_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:theme="@style/TextLabel"
+                    app:errorTextAppearance="@style/error_appearance"
                     android:layout_marginLeft="32dp"
-                    android:text="Female" />
+                    android:text="Female"/>
+
+
 
             </RadioGroup>
 
@@ -233,11 +294,12 @@
                 android:text="HOW ACTIVE ARE YOU?"
                 android:textSize="@dimen/form_head_size" />
 
-            <Spinner
+            <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/activity_level_spinner"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
-                android:layout_height="48dp" />
+                android:layout_height="48dp"
+                android:theme="@style/LineColor"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -258,13 +320,21 @@
                         android:layout_height="wrap_content"
                         android:text="STEPS PER MILE"
                         android:textSize="@dimen/form_head_size" />
-
-                    <EditText
-                        android:id="@+id/steps"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutSteps"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:theme="@style/LineColor" />
+                        android:theme="@style/TextLabel"
+                        app:errorTextAppearance="@style/error_appearance">
+                        <EditText
+                            android:id="@+id/steps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:theme="@style/LineColor" />
+
+                    </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -280,12 +350,20 @@
                         android:layout_height="wrap_content"
                         android:text="POSTCODE"
                         android:textSize="@dimen/form_head_size" />
-
-                    <EditText
-                        android:id="@+id/postcode"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/inputLayoutPostcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/LineColor" />
+                        android:theme="@style/TextLabel"
+                        app:errorTextAppearance="@style/error_appearance">
+
+                        <EditText
+                            android:id="@+id/postcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/LineColor" />
+                    </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -296,11 +374,20 @@
                 android:text="ADDRESS"
                 android:textSize="@dimen/form_head_size" />
 
-            <EditText
-                android:id="@+id/address"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/LineColor" />
+                android:theme="@style/TextLabel"
+                app:errorTextAppearance="@style/error_appearance">
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/LineColor" />
+
+            </android.support.design.widget.TextInputLayout>
+
 
         </LinearLayout>
 
@@ -337,9 +424,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:onClick="goToMain"
             android:text="LETS GO!"
-            android:visibility="invisible"
-            android:onClick="goToMain"/>
+            android:visibility="invisible" />
 
 
     </RelativeLayout>
