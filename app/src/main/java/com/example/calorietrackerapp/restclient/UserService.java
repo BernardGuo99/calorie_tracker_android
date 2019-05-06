@@ -61,7 +61,7 @@ public class UserService {
         }
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         Credential[] arr = gson.fromJson(user, Credential[].class);
-        for (Credential credential : arr){
+        for (Credential credential : arr) {
             passwordHash = credential.getPasswordHash();
         }
         if (!PasswordHash256.passWordHash(password).equals(passwordHash)) {
@@ -76,10 +76,20 @@ public class UserService {
         String userId = "";
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         Credential[] arr = gson.fromJson(user, Credential[].class);
-        for (Credential credential : arr){
+        for (Credential credential : arr) {
             userId = credential.getUserId().getUserId();
         }
         return userId;
+    }
+
+    public String findFirstNameById(String userId) {
+        path = "restws.appuser/" + userId;
+        String user = dao.find(path);
+        String firstName = "";
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        AppUser arr = gson.fromJson(user, AppUser.class);
+        firstName = arr.getFirstname();
+        return firstName;
     }
 
 }

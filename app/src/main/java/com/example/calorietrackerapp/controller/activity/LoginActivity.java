@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor spEditor = sharedPref.edit();
                 spEditor.putString("user_id", userService.getUserIdByUserName(params[0]));
                 spEditor.apply();
+                System.out.println(sharedPref.getString("user_id", null));
             }
             return valid;
         }

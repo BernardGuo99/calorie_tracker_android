@@ -3,10 +3,12 @@ package com.example.calorietrackerapp.restclient.dao;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -29,11 +31,13 @@ public class DAOImpl implements IDAO {
 
     public void createInstance(Object object, String path) {
         HttpURLConnection conn = this.getConnection(path);
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         String stringJson = gson.toJson(object);
-        System.out.println(new Date());
-        System.out.println("########################################################################");
-        System.out.println(stringJson);
+//        Timestamp ts = new Timestamp(new Date().getTime());
+//        System.out.println(ts);
+//        System.out.println(new Date());
+//        System.out.println("########################################################################");
+//        System.out.println(stringJson);
         conn.setReadTimeout(10000);
         conn.setConnectTimeout(15000);
         try {
