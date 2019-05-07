@@ -31,7 +31,7 @@ public class DAOImpl implements IDAO {
 
     public void createInstance(Object object, String path) {
         HttpURLConnection conn = this.getConnection(path);
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").create();
         String stringJson = gson.toJson(object);
 //        Timestamp ts = new Timestamp(new Date().getTime());
 //        System.out.println(ts);

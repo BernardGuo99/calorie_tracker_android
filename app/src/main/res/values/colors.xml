@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF3300</color>
-    <color name="colorPrimaryDark">#CD0000</color>
-    <color name="colorAccent">#FF3300</color>
-    <color name="colorAuthTitle">#FF3300</color>
+    <color name="colorPrimary">#FF6347</color>
+    <color name="colorPrimaryDark">#FF3300</color>
+    <color name="colorAccent">#FF6347</color>
+    <color name="colorAuthTitle">#FF6347</color>
     <color name="btnColor1">#FFFFFF</color>
-    <color name="lightgGreen">#66c1c1</color>
-    <color name="darkGreen">#009999</color>
+    <color name="lightgGreen">#40E0D0</color>
+    <color name="darkGreen">#66c1c1</color>
+    <color name="snow">#F5F5F5</color>
+    <color name="black">#000000</color>
 </resources>

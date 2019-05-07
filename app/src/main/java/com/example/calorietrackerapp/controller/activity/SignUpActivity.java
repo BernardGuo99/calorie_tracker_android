@@ -23,9 +23,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.calorietrackerapp.R;
+import com.example.calorietrackerapp.controller.asynctask.CheckEmailExistAsyncTask;
+import com.example.calorietrackerapp.controller.asynctask.CheckUserNameAsyncTask;
+import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
 import com.example.calorietrackerapp.restclient.UserService;
 import com.example.calorietrackerapp.restclient.entity.AppUser;
 import com.example.calorietrackerapp.restclient.entity.Credential;
@@ -42,7 +46,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements InterfaceForResult {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private EditText editTextBirthday;
     private ViewFlipper viewFlipper;
@@ -80,6 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout stepsLayout;
     private TextInputLayout postcodeLayout;
     private TextInputLayout addressLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.email);
         emailLayout = findViewById(R.id.inputLayoutEmail);
 
+
         editTextEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -172,11 +178,13 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //Boolean result = true;
                 Boolean result = true;
                 try {
                     result = new CheckEmailExistAsyncTask().execute(editTextEmail.getText().toString()).get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
+                    result = true;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -597,10 +605,13 @@ public class SignUpActivity extends AppCompatActivity {
                     weightText.getText().toString(),
                     usernameText.getText().toString(),
                     passwordText.getText().toString());
-
-
             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
         }
+    }
+
+    @Override
+    public void done(Object result) {
+
     }
 
 
@@ -645,21 +656,12 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private class CheckEmailExistAsyncTask extends AsyncTask<String, Void, Boolean> {
-        UserService userService = new UserService();
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            return userService.checkEmailExistence(params[0]);
-        }
-    }
-
-    private class CheckUserNameAsyncTask extends AsyncTask<String, Void, Boolean> {
-        UserService userService = new UserService();
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            return userService.checkUserNameExistence(params[0]);
-        }
-    }
+//    private class CheckUserNameAsyncTask extends AsyncTask<String, Void, Boolean> {
+//        UserService userService = new UserService();
+//
+//        @Override
+//        protected Boolean doInBackground(String... params) {
+//            return userService.checkUserNameExistence(params[0]);
+//        }
+//    }
 }
