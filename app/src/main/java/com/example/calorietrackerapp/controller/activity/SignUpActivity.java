@@ -23,14 +23,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.asynctask.CheckEmailExistAsyncTask;
 import com.example.calorietrackerapp.controller.asynctask.CheckUserNameAsyncTask;
 import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
-import com.example.calorietrackerapp.restclient.UserService;
+import com.example.calorietrackerapp.restclient.service.UserService;
 import com.example.calorietrackerapp.restclient.entity.AppUser;
 import com.example.calorietrackerapp.restclient.entity.Credential;
 import com.example.calorietrackerapp.utils.InputValidator;
@@ -100,10 +99,10 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
         list.add("Moderately Active");
         list.add("Moderately to Highly Active");
         list.add("Highly Active");
-        final Spinner level = (Spinner) findViewById(R.id.activity_level_spinner);
+        levelOfActivityText = (Spinner) findViewById(R.id.activity_level_spinner);
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        level.setAdapter(spinnerAdapter);
+        levelOfActivityText.setAdapter(spinnerAdapter);
 
         firstNameText = findViewById(R.id.first_name);
         surnameText = findViewById(R.id.surname);
@@ -114,7 +113,6 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
         femaleButton = findViewById(R.id.radio_female);
         addressText = findViewById(R.id.address);
         postcodeText = findViewById(R.id.postcode);
-        levelOfActivityText = findViewById(R.id.activity_level_spinner);
         stepsPerMileText = findViewById(R.id.steps);
         heightText = findViewById(R.id.height);
         weightText = findViewById(R.id.weight);
@@ -407,8 +405,6 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.tick:
-//                SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
-//                System.out.println(sharedPref.getString("user_id","wcnm"));
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
                 String username = editTextUserName.getText().toString().trim();

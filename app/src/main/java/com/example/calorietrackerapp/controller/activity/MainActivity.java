@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.asynctask.FindCurrentUserAsynctask;
+import com.example.calorietrackerapp.controller.fragment.DailyDietFragment;
 import com.example.calorietrackerapp.controller.fragment.DisplayHomeFragment;
 import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
 
@@ -99,8 +100,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home_page:
                 nextFragment = new DisplayHomeFragment();
                 break;
+            case R.id.nav_daily_calorie_page:
+                nextFragment = new DailyDietFragment();
+                break;
         }
-
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

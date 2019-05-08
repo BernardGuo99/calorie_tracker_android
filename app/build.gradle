@@ -32,4 +32,15 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
 
 
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation files('libs/http-core-4.1.jar')
+    implementation files('libs/httpclient-4.0.3.jar')
+    implementation files('libs/httpclient-cache-4.2.5.jar')
+    implementation files('libs/httpmime-4.2.5.jar')
+    implementation files('libs/commons-logging-1.2.jar')
+    implementation files('libs/commons-logging-1.2-javadoc.jar')
+
 }

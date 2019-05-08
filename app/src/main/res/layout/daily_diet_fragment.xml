@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?android:attr/actionBarSize"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spinner_food_category"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:theme="@style/LineColor" />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spinner_food_items"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:theme="@style/LineColor" />
+    <ImageView
+        android:id="@+id/imageFood"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+</LinearLayout>

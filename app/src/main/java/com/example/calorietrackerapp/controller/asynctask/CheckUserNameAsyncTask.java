@@ -2,7 +2,7 @@ package com.example.calorietrackerapp.controller.asynctask;
 
 import android.os.AsyncTask;
 
-import com.example.calorietrackerapp.restclient.UserService;
+import com.example.calorietrackerapp.restclient.service.UserService;
 
 public class CheckUserNameAsyncTask extends AsyncTask<String, Void, Boolean> {
     UserService userService = new UserService();

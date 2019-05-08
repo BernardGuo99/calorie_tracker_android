@@ -18,7 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.calorietrackerapp.R;
-import com.example.calorietrackerapp.restclient.UserService;
+import com.example.calorietrackerapp.restclient.service.UserService;
 
 import java.util.concurrent.ExecutionException;
 

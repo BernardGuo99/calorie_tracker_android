@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient;
+package com.example.calorietrackerapp.restclient.service;
 
 import com.example.calorietrackerapp.restclient.dao.DAOImpl;
 import com.example.calorietrackerapp.restclient.dao.IDAO;
@@ -31,8 +31,6 @@ public class UserService {
         AppUser[] arr = gson.fromJson(users, AppUser[].class);
         for (AppUser user : arr) {
             if (email.equals(user.getEmail())) {
-                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                System.out.println(user.getDateOfBirth());
                 return false;
             }
         }

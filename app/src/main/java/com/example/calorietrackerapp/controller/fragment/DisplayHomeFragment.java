@@ -5,27 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.example.calorietrackerapp.R;
-import com.example.calorietrackerapp.controller.activity.MainActivity;
 import com.example.calorietrackerapp.controller.activity.PopGoalActivity;
 import com.example.calorietrackerapp.controller.asynctask.FindCurrentUserAsynctask;
 import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import static android.os.Looper.getMainLooper;
 
 public class DisplayHomeFragment extends Fragment implements InterfaceForResult {
 

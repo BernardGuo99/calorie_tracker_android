@@ -4,7 +4,7 @@ package com.example.calorietrackerapp.controller.asynctask;
 import android.os.AsyncTask;
 
 import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
-import com.example.calorietrackerapp.restclient.UserService;
+import com.example.calorietrackerapp.restclient.service.UserService;
 
 public class FindCurrentUserAsynctask extends AsyncTask<String, Void, String> {
     UserService userService = new UserService();

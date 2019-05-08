@@ -20,6 +20,7 @@
         <item name="colorControlActivated">@color/darkGreen</item>
         <item name="colorControlHighlight">@color/darkGreen</item>
         <item name="android:textSize">18dp</item>
+
     </style>
 
     <style name="TextLabel" parent="TextAppearance.AppCompat">
