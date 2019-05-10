@@ -13,6 +13,7 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.example.calorietrackerapp.R;
+import com.example.calorietrackerapp.controller.activity.MainActivity;
 import com.example.calorietrackerapp.controller.activity.PopGoalActivity;
 import com.example.calorietrackerapp.controller.asynctask.FindCurrentUserAsynctask;
 import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
@@ -26,7 +27,7 @@ public class DisplayHomeFragment extends Fragment implements InterfaceForResult 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vHomepage = inflater.inflate(R.layout.fragment_main, container, false);
-
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Calorie Tracker");
         TextView tv = vHomepage.findViewById(R.id.tv);
 
         SharedPreferences sharedPref = getActivity().getSharedPreferences("user_auth", Context.MODE_PRIVATE);
@@ -39,8 +40,10 @@ public class DisplayHomeFragment extends Fragment implements InterfaceForResult 
         textClock.setFormat12Hour("HH:mm:ss MMM d, yyyy");
 
         goalValueText = vHomepage.findViewById(R.id.goal_value);
-
-        goalValueText.setText(sharedPref.getString(userId + "Goal", "") + " Cal");
+        String setGoal = sharedPref.getString(userId + "Goal", "");
+        if (setGoal.length() != 0) {
+            goalValueText.setText(setGoal + " Cal");
+        }
 
 
         goalLayout = vHomepage.findViewById(R.id.set_goal);

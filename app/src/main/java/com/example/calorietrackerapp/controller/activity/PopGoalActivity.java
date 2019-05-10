@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,8 +39,30 @@ public class PopGoalActivity extends AppCompatActivity {
         goalLayout = findViewById(R.id.inputLayoutEditCalorie);
         SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
         String userId = sharedPref.getString("user_id", "");
-        String currentVaue = sharedPref.getString(userId + "Goal", "");
-        goalText.setText(currentVaue);
+        String currentValue = sharedPref.getString(userId + "Goal", "");
+        goalText.setText(currentValue);
+
+        goalText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (goalText.length() == 0) {
+                    saveButton.setEnabled(false);
+                } else {
+                    saveButton.setEnabled(true);
+                }
+            }
+        });
+
 
         saveButton = findViewById(R.id.b_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +71,7 @@ public class PopGoalActivity extends AppCompatActivity {
                 String calorieGoal = goalText.getText().toString();
                 if (calorieGoal.length() == 0) {
                     goalLayout.setError("Enter today's calorie goal");
+                    //saveButton.setEnabled(false);
                 } else {
 
                     SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);

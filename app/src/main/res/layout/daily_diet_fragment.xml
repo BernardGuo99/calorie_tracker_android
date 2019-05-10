@@ -6,23 +6,125 @@
     android:layout_marginTop="?android:attr/actionBarSize"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/spinner_food_category"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:theme="@style/LineColor" />
+        <ImageView
+            android:id="@+id/imageFood"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/food_image_default" />
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/spinner_food_items"
+        <TextView
+            android:id="@+id/foodImageViewText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/imageFood"
+            android:background="#3888"
+            android:gravity="center"
+            android:text="Select Your Food Now"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:theme="@style/LineColor" />
-    <ImageView
-        android:id="@+id/imageFood"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="32dp">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_food_category"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+
+            android:theme="@style/LineColor" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_food_items"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:theme="@style/LineColor" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/b_addFood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="16dp"
+                android:text="No Desired Food? Create One"
+                android:textColor="@color/btnColor1"
+                android:textStyle="bold"
+                android:theme="@style/GreenButton"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_fat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_serving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/b_addToDaily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="16dp"
+                android:text="I ATE THIS!"
+                android:textColor="@color/btnColor1"
+                android:textStyle="bold"
+                android:theme="@style/GreenButton"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_food_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/border_background"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone">
+
+
+        </TextView>
+    </LinearLayout>
+
 
 </LinearLayout>

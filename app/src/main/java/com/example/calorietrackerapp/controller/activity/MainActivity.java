@@ -52,6 +52,18 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new DisplayHomeFragment()).commit();
 
+
+        try {
+            Bundle bundle = getIntent().getExtras();
+            String from = bundle.getString("From");
+            if ("popFoodAmount".equals(from)) {
+                fragmentManager.beginTransaction().replace(R.id.content_frame, new DailyDietFragment()).commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
         String userId = sharedPref.getString("user_id", null);
         FindCurrentUserAsynctask findCurrentUserAsynctask = new FindCurrentUserAsynctask(this);

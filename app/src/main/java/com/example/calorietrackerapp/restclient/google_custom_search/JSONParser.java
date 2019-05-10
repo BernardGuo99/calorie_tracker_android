@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient.google_image_search;
+package com.example.calorietrackerapp.restclient.google_custom_search;
 
 import android.util.Log;
 
@@ -76,4 +76,6 @@ public class JSONParser {
         return jObj;
 
     }
+
+
 }

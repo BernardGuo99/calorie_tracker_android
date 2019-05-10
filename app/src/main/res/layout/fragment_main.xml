@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?android:attr/actionBarSize"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -89,7 +90,6 @@
             android:id="@+id/goal_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:text="Set your today's calorie goal. We recommend calorie goals be between 1200 and 9000 per day, unless you have received specific recommendations for calorie intake from a doctor or nutritionist."
             android:textColor="@color/black"
             android:textSize="14dp" />

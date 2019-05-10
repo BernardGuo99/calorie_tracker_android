@@ -12,9 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".controller.activity.AddNewFoodActivity"></activity>
+        <activity
+            android:name=".controller.activity.PopFoodAmountActivity"
+            android:theme="@style/AppTheme.PopTheme" />
         <activity
             android:name=".controller.activity.PopGoalActivity"
-            android:theme="@style/AppTheme.PopTheme"></activity>
+            android:theme="@style/AppTheme.PopTheme" />
         <activity
             android:name=".controller.activity.SignUpActivity"
             android:label="@string/sign_up"
