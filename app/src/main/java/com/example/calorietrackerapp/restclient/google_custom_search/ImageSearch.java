@@ -3,7 +3,9 @@ package com.example.calorietrackerapp.restclient.google_custom_search;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.widget.ImageView;
 
+import com.example.calorietrackerapp.R;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
@@ -14,7 +16,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.calorietrackerapp.controller.fragment.DailyDietFragment.img;
 
 public class ImageSearch extends AsyncTask<String, String, String> {
 
@@ -23,6 +24,11 @@ public class ImageSearch extends AsyncTask<String, String, String> {
     private JSONParser jParser = new JSONParser();
     private JSONObject json;
     public static Activity activity;
+    public ImageView img;
+
+    public ImageSearch(ImageView img) {
+        this.img = img;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -54,7 +60,13 @@ public class ImageSearch extends AsyncTask<String, String, String> {
 
     protected void onPostExecute(String file_url) {
         progressDialog.cancel();
-        Picasso.with(activity).load(Links.get(0)).into(img);
+        try {
+            Picasso.with(activity).load(Links.get(0)).into(img);
+        } catch (Exception e) {
+            e.printStackTrace();
+            img.setImageResource(R.mipmap.no_image_found);
+        }
+
     }
 
     private String API_KEY = "AIzaSyCmXvXxNTg7-1n5n-8s4Sf95qThIYULQsM";

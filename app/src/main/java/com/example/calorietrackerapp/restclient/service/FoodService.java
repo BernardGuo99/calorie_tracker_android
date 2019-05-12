@@ -14,6 +14,25 @@ public class FoodService {
     private IDAO dao = new DAOImpl();
     private String path;
 
+    public void createFood(Food food) {
+        path = "restws.food/";
+        dao.createInstance(food, path);
+    }
+
+    public boolean checkFoodExistence(String foodName) {
+        path = "restws.food/";
+        String foods = dao.find(path);
+        Gson gson = new Gson();
+        Food[] arr = gson.fromJson(foods, Food[].class);
+        for (Food food : arr) {
+            if (food.equals(food.getFoodName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     public List<String> getFoodNameByCategory(String category) {
         path = "restws.food/findByCategory/" + category;
         String items = dao.find(path);

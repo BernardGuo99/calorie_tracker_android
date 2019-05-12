@@ -49,7 +49,7 @@ public class PopFoodAmountActivity extends AppCompatActivity {
 
 
                 if (ateAmount.length() == 0) {
-                    amountLayout.setError("Enter today's calorie goal");
+                    amountLayout.setError("Enter Amount");
                 } else {
                     CreateConsumptionAsyncTask createConsumptionAsyncTask = new CreateConsumptionAsyncTask();
 

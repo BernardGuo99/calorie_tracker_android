@@ -1,6 +1,7 @@
 package com.example.calorietrackerapp.restclient.usda_food_search;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -55,9 +56,96 @@ public class UsdaFoodSearch {
         } finally {
             connection.disconnect();
         }
-        //System.out.println(textResult);
         return textResult;
     }
+
+
+    public static String searchByNdbNo(String ndbNo) {
+
+        try {
+            ndbNo = URLEncoder.encode(ndbNo, "utf-8").replaceAll("\\+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        URL url = null;
+        HttpURLConnection connection = null;
+        String textResult = "";
+        //String query_parameter = "";
+        //System.out.println(Arrays.toString(params));
+        //System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        if (params != null && values != null) {
+//            for (int i = 0; i < params.length; i++) {
+//                query_parameter += "&";
+//                query_parameter += params[i];
+//                query_parameter += "=";
+//                query_parameter += values[i];
+//            }
+//        }
+        try {
+
+
+            url = new URL("https://api.nal.usda.gov/ndb/V2/reports?ndbno=" + ndbNo +
+                    "&type=b&format=json&api_key=" + API_KEY);
+            System.out.println(url);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(15000);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
+            Scanner scanner = new Scanner(connection.getInputStream());
+            while (scanner.hasNextLine()) {
+                textResult += scanner.nextLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connection.disconnect();
+        }
+        return textResult;
+    }
+
+    public static Map<String, String> getNutritionValue(String result) {
+        Map<String, String> nutritionMap = new HashMap<>();
+        String energy = "";
+        String serving = "";
+        String fat = "";
+        String protein = "";
+        try {
+            JSONArray jsonArray = new JSONObject(result).getJSONArray("foods");
+            if (jsonArray != null) {
+                JSONArray nutrientsArray = jsonArray.getJSONObject(0).getJSONObject("food").getJSONArray("nutrients");
+                String nutrientId = "";
+                for (int i = 0; i < nutrientsArray.length(); i++) {
+                    JSONObject nutrientObject = nutrientsArray.getJSONObject(i);
+                    nutrientId = nutrientObject.getString("nutrient_id");
+                    switch (nutrientId) {
+                        case "208":
+                            energy = nutrientObject.getString("value");
+                            serving = nutrientObject.getJSONArray("measures").getJSONObject(0).getString("label");
+                            nutritionMap.put("Energy", energy);
+                            nutritionMap.put("Serving", serving);
+                            break;
+                        case "203":
+                            protein = nutrientObject.getString("value");
+                            nutritionMap.put("Protein", protein);
+                            break;
+                        case "204":
+                            fat = nutrientObject.getString("value");
+                            nutritionMap.put("Fat", fat);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return nutritionMap;
+    }
+
 
     public static Map<String, String> getFoodValue(String result) {
         Map<String, String> foodMap = new HashMap<>();

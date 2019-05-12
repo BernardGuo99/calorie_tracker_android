@@ -1,53 +1,96 @@
 package com.example.calorietrackerapp.controller.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.example.calorietrackerapp.R;
-import com.example.calorietrackerapp.controller.activity.AddNewFoodActivity;
-import com.example.calorietrackerapp.controller.activity.AuthUserActivity;
-import com.example.calorietrackerapp.controller.activity.LoginActivity;
 import com.example.calorietrackerapp.controller.activity.MainActivity;
+import com.example.calorietrackerapp.controller.activity.PopAddNewFoodActivity;
 import com.example.calorietrackerapp.controller.activity.PopFoodAmountActivity;
 import com.example.calorietrackerapp.controller.asynctask.QueryFoodByCategoryAsyncTask;
 import com.example.calorietrackerapp.controller.asynctask.QueryFoodByNameAsynctask;
 import com.example.calorietrackerapp.controller.asynctask.TextSearchAsyncTask;
+import com.example.calorietrackerapp.controller.asynctask.UsdaFoodListSearchAsyncTask;
+import com.example.calorietrackerapp.controller.asynctask.UsdaFoodNutritionAsyncTask;
 import com.example.calorietrackerapp.restclient.entity.Food;
 import com.example.calorietrackerapp.restclient.google_custom_search.ImageSearch;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 public class DailyDietFragment extends Fragment {
     private View vMyDailyDiet;
     private Spinner foodCategorySpinner;
     private Spinner itemsSpinner;
-    public static ImageView img;
+    public ImageView img;
     private TextView imageTextView;
     private TextView fatTextView;
     private TextView servingTextView;
     private TextView foodDetailsTextView;
     private Button addToDailyButton;
     private Button addFoodButton;
+    private ViewFlipper viewFlipper;
+    private ImageView newFoodImg;
+    private TextView backTv1;
+    private TextView backTv2;
+    private TextView newFoodNameTextView;
+    private TextView newFatTextView;
+    private TextView newCalTextView;
+    private TextView newProteinTextView;
+    private TextView newServingTextView;
+    private TextView orTextView;
+    private Button addNewFoodButton;
+
+
+    EditText searchFoodEditText;
+
+
+    List<HashMap<String, String>> foodListArray;
+    SimpleAdapter myListAdapter;
+    ListView foodList;
+    String[] colHEAD = new String[]{"FOODITEM"};
+    int[] dataCell = new int[]{R.id.food_item};
+
+    private Timer timer;
+
+
+    private String newFoodName;
+    private int newFoodFat;
+    private double newFoodCalorie;
+    private String newFoodServing;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +118,21 @@ public class DailyDietFragment extends Fragment {
         foodDetailsTextView = vMyDailyDiet.findViewById(R.id.tv_food_details);
         addToDailyButton = vMyDailyDiet.findViewById(R.id.b_addToDaily);
         addFoodButton = vMyDailyDiet.findViewById(R.id.b_addFood);
+        viewFlipper = vMyDailyDiet.findViewById(R.id.view_flipper_add_food);
+        newFoodImg = vMyDailyDiet.findViewById(R.id.imageNewFood);
+        backTv1 = vMyDailyDiet.findViewById(R.id.back_tv1);
+        backTv2 = vMyDailyDiet.findViewById(R.id.back_tv2);
+        newFoodNameTextView = vMyDailyDiet.findViewById(R.id.newFoodName);
+        newCalTextView = vMyDailyDiet.findViewById(R.id.tv_new_cal);
+        newFatTextView = vMyDailyDiet.findViewById(R.id.tv_new_fat);
+        newProteinTextView = vMyDailyDiet.findViewById(R.id.tv_new_protein);
+        newServingTextView = vMyDailyDiet.findViewById(R.id.tv_new_serving);
+        orTextView = vMyDailyDiet.findViewById(R.id.tv_or);
+        addNewFoodButton = vMyDailyDiet.findViewById(R.id.b_add_ate_new);
+
+
+        foodListArray = new ArrayList<>();
+
 
         addToDailyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +141,19 @@ public class DailyDietFragment extends Fragment {
                 intent.putExtra("Food", itemsSpinner.getSelectedItem().toString());
                 startActivity(intent);
 
+            }
+        });
+
+        addNewFoodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PopAddNewFoodActivity.class);
+                intent.putExtra("Category", foodCategorySpinner.getSelectedItemPosition());
+                intent.putExtra("Name", newFoodName);
+                intent.putExtra("Calorie", newFoodCalorie);
+                intent.putExtra("Fat", newFoodFat);
+                intent.putExtra("Serving", newFoodServing);
+                startActivity(intent);
             }
         });
 
@@ -99,18 +170,26 @@ public class DailyDietFragment extends Fragment {
                 selected.setPadding(0, 0, 0, 0);
                 if (categorySelected.equals("Select a Food Category")) {
                     itemsSpinner.setVisibility(View.GONE);
+                    addToDailyButton.setVisibility(View.GONE);
+                    imageTextView.setText("Select Your Food Now");
+                    foodDetailsTextView.setVisibility(View.GONE);
+                    fatTextView.setVisibility(View.GONE);
+                    servingTextView.setVisibility(View.GONE);
+                    orTextView.setVisibility(View.GONE);
+                    addFoodButton.setVisibility(View.GONE);
+
                 } else {
                     itemsSpinner.setVisibility(View.VISIBLE);
-                    List<String> foodList = new ArrayList<>();
+                    List<String> spinnerFoodList = new ArrayList<>();
                     try {
-                        foodList = new QueryFoodByCategoryAsyncTask().execute(categorySelected).get();
+                        spinnerFoodList = new QueryFoodByCategoryAsyncTask().execute(categorySelected).get();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (foodList.size() > 1) {
-                        final ArrayAdapter<String> foodSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, foodList);
+                    if (spinnerFoodList.size() > 1) {
+                        final ArrayAdapter<String> foodSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerFoodList);
                         foodSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         itemsSpinner.setAdapter(foodSpinnerAdapter);
                     }
@@ -141,6 +220,7 @@ public class DailyDietFragment extends Fragment {
                     servingTextView.setVisibility(View.VISIBLE);
                     addToDailyButton.setVisibility(View.VISIBLE);
                     addFoodButton.setVisibility(View.GONE);
+                    orTextView.setVisibility(View.GONE);
 
                     String foodDetailsResult = "";
                     try {
@@ -172,7 +252,7 @@ public class DailyDietFragment extends Fragment {
                     try {
                         String wordEncoding = URLEncoder.encode(searchString, "utf-8").replaceAll("\\+", "%20");
                         ImageSearch.activity = getActivity();
-                        new ImageSearch().execute(wordEncoding);
+                        new ImageSearch(img).execute(wordEncoding);
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -183,6 +263,7 @@ public class DailyDietFragment extends Fragment {
                     servingTextView.setVisibility(View.GONE);
                     addToDailyButton.setVisibility(View.GONE);
                     addFoodButton.setVisibility(View.VISIBLE);
+                    orTextView.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -196,12 +277,190 @@ public class DailyDietFragment extends Fragment {
         addFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddNewFoodActivity.class);
-                startActivity(intent);
+                viewFlipper.showNext();
+                //((MainActivity) getActivity()).getSupportActionBar().hide();
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.content_frame, new AddNewFoodFragment()).commit();
+            }
+        });
+
+
+        searchFoodEditText = vMyDailyDiet.findViewById(R.id.search_food);
+
+
+        foodList = vMyDailyDiet.findViewById(R.id.food_list);
+        viewFlipper = viewFlipper.findViewById(R.id.view_flipper_add_food);
+
+
+        foodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, String> foodItem = (HashMap<String, String>) foodList.getItemAtPosition(position);
+                String foodNameString = foodItem.get("FOODITEM");
+                if (!"NO RESULT".equals(foodNameString)) {
+                    try {
+                        String wordEncoding = URLEncoder.encode(foodItem.get("FOODITEM"), "utf-8").replaceAll("\\+", "%20");
+                        ImageSearch.activity = getActivity();
+                        new ImageSearch(newFoodImg).execute(wordEncoding);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        Map<String, String> nutritionMap = new UsdaFoodNutritionAsyncTask().execute(foodItem.get("id")).get();
+
+
+                        newFoodName = foodNameString;
+                        newFoodCalorie = Double.parseDouble(nutritionMap.get("Energy"));
+                        newFoodFat = (int) Math.round(Double.parseDouble(nutritionMap.get("Fat")));
+                        newFoodServing = nutritionMap.get("Serving");
+
+                        SpannableStringBuilder ssbNewCal = new SpannableStringBuilder("Energy  " + newFoodCalorie + "Cal");
+                        ssbNewCal.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        newCalTextView.setText(ssbNewCal);
+                        SpannableStringBuilder ssbNewServing = new SpannableStringBuilder("Serving  " + nutritionMap.get("Serving"));
+                        ssbNewServing.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        newServingTextView.setText(ssbNewServing);
+                        SpannableStringBuilder ssbNewFat = new SpannableStringBuilder("Fat  " + nutritionMap.get("Fat") + "g");
+                        ssbNewFat.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        newFatTextView.setText(ssbNewFat);
+                        SpannableStringBuilder ssbNewProtein = new SpannableStringBuilder("Protein  " + nutritionMap.get("Protein") + "g");
+                        ssbNewProtein.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        newProteinTextView.setText(ssbNewProtein);
+
+
+//                        energy = nutritionMap.get("Energy");
+//                        serving = nutritionMap.get("Serving");
+//                        fat = nutritionMap.get("Fat");
+//                        protein = nutritionMap.get("Protein");
+//
+//                        System.out.println(energy + serving + fat + protein);
+
+
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    newFoodNameTextView.setText(foodNameString);
+
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(vMyDailyDiet.getWindowToken(), 0);
+                    viewFlipper.showNext();
+                }
+            }
+        });
+
+
+        searchFoodEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (timer != null) {
+                    timer.cancel();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                foodListArray.clear();
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                // Stuff that updates the UI
+                                if (searchFoodEditText.getText().toString().trim().length() != 0) {
+                                    foodList.setVisibility(View.VISIBLE);
+
+                                    String searchString = searchFoodEditText.getText().toString();
+                                    try {
+                                        Map<String, String> foodItems = new UsdaFoodListSearchAsyncTask().execute(searchString).get();
+                                        Iterator iter = foodItems.entrySet().iterator();
+                                        while (iter.hasNext()) {
+                                            Map.Entry entry = (Map.Entry) iter.next();
+                                            String key = entry.getKey().toString();
+                                            String val = entry.getValue().toString();
+
+                                            HashMap<String, String> map = new HashMap<String, String>();
+                                            map.put("FOODITEM", key);
+                                            map.put("id", val);
+                                            foodListArray.add(map);
+                                        }
+                                        if (foodListArray.size() == 0) {
+                                            HashMap<String, String> map = new HashMap<String, String>();
+                                            map.put("FOODITEM", "NO RESULT");
+                                            foodListArray.add(map);
+                                        }
+
+                                        myListAdapter = new SimpleAdapter(getActivity(), foodListArray, R.layout.food_list_view, colHEAD, dataCell);
+                                        foodList.setAdapter(myListAdapter);
+
+                                        int count = foodList.getAdapter().getCount();
+                                        if (count == 0) {
+                                            foodList.setVisibility(View.GONE);
+                                        }
+                                        for (int i = 0; i < count; i++) {
+                                            TextView foodName = (TextView) foodList.getAdapter().getView(i, null, foodList).findViewById(R.id.food_item);
+                                            //foodName.setSelected(true);
+
+                                            foodName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                                            foodName.setHorizontallyScrolling(true);
+                                            foodName.setMarqueeRepeatLimit(-1);
+                                            foodName.setFocusable(true);
+                                            //foodName.setFocusableInTouchMode(true);
+                                            //System.out.println(foodName.getText());
+                                        }
+
+
+                                        //tv.setText(hehe);
+                                        //System.out.println(cnm);
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    foodList.setAdapter(null);
+                                    foodList.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+
+                    }
+                }, 800);
+
+            }
+        });
+
+        backTv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewFlipper.showPrevious();
+            }
+        });
+
+        backTv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewFlipper.showPrevious();
             }
         });
 
 
         return vMyDailyDiet;
     }
+
+
 }
