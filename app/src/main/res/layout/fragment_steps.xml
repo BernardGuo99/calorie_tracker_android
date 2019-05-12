@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?android:attr/actionBarSize"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputLayoutStepsCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/error_appearance"
+            android:layout_weight="3">
+
+            <EditText
+                android:id="@+id/et_enter_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Steps"
+                android:inputType="number"
+                android:theme="@style/LineColor"
+                android:layout_marginRight="20dp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/b_add_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADD"
+            android:textColor="@color/btnColor1"
+            android:textStyle="bold"
+            android:layout_weight="1"
+
+            android:theme="@style/GreenButton" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/steps_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:background="@drawable/border_background"
+        />
+
+
+</LinearLayout>

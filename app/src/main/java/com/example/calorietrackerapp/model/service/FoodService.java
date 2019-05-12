@@ -1,8 +1,8 @@
-package com.example.calorietrackerapp.restclient.service;
+package com.example.calorietrackerapp.model.service;
 
-import com.example.calorietrackerapp.restclient.dao.DAOImpl;
-import com.example.calorietrackerapp.restclient.dao.IDAO;
-import com.example.calorietrackerapp.restclient.entity.Food;
+import com.example.calorietrackerapp.model.dao.DAOImpl;
+import com.example.calorietrackerapp.model.dao.IDAO;
+import com.example.calorietrackerapp.model.entity.Food;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
@@ -25,11 +25,11 @@ public class FoodService {
         Gson gson = new Gson();
         Food[] arr = gson.fromJson(foods, Food[].class);
         for (Food food : arr) {
-            if (food.equals(food.getFoodName())) {
-                return false;
+            if (food.getFoodName().equals(foodName)) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient.entity;
+package com.example.calorietrackerapp.model.entity;
 
 import java.util.Date;
 

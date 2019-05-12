@@ -7,66 +7,74 @@
     android:background="@drawable/border_background"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_confirm_cate"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Your Food Category"
-        android:textSize="@dimen/form_head_size" />
+        android:layout_centerInParent="true">
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/spinner_new_food_category"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:theme="@style/LineColor" />
-
-
-
-
-    <TextView
-        android:id="@+id/tv_new_ate_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:paddingTop="50dp"
-        android:text="Input The Amount You Ate"
-        android:textColor="@color/black"
-        android:textSize="24dp"
-        android:textStyle="bold" />
-
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/inputLayoutNewAteAmount"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_new_ate_amount"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
-        android:theme="@style/TextLabel"
-        app:errorTextAppearance="@style/error_appearance">
-
-        <EditText
-            android:id="@+id/edit_new_ate_amount"
+        <TextView
+            android:id="@+id/tv_confirm_cate"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="Confirm Food Category"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_new_food_category"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/tv_confirm_cate"
+            android:layout_marginHorizontal="16dp"
             android:theme="@style/LineColor" />
-    </android.support.design.widget.TextInputLayout>
 
 
-    <Button
-        android:id="@+id/b_new_save_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_new_ate_amount"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="50dp"
-        android:text="SAVE"
-        android:textColor="#000000"
-        android:theme="@style/WhiteButton" />
+        <TextView
+            android:id="@+id/tv_new_ate_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner_new_food_category"
+            android:layout_marginLeft="16dp"
+            android:text="Input The Amount You Ate"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputLayoutNewAteAmount"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_new_ate_amount"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/error_appearance">
+
+            <EditText
+                android:id="@+id/edit_new_ate_amount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"
+                android:theme="@style/LineColor" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/b_new_save_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_new_ate_amount"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="50dp"
+            android:text="SAVE"
+            android:textColor="#000000"
+            android:theme="@style/WhiteButton" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

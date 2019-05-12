@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient.entity;
+package com.example.calorietrackerapp.model.entity;
 
 public class Food {
     private String foodId;
@@ -6,7 +6,7 @@ public class Food {
     private String category;
     private Double calorieAmount;
     private String serviceUnit;
-    private Integer fat;
+    private Double fat;
 
     public Food(String foodId) {
         this.foodId = foodId;
@@ -55,11 +55,11 @@ public class Food {
         this.serviceUnit = serviceUnit;
     }
 
-    public Integer getFat() {
+    public Double getFat() {
         return fat;
     }
 
-    public void setFat(Integer fat) {
+    public void setFat(Double fat) {
         this.fat = fat;
     }
 }

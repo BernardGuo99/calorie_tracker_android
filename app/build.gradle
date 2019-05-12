@@ -16,6 +16,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
 
 dependencies {
@@ -42,5 +44,7 @@ dependencies {
     implementation files('libs/httpmime-4.2.5.jar')
     implementation files('libs/commons-logging-1.2.jar')
     implementation files('libs/commons-logging-1.2-javadoc.jar')
+
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
 
 }

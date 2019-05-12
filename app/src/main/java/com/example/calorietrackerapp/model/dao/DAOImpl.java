@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient.dao;
+package com.example.calorietrackerapp.model.dao;
 
 import android.util.Log;
 
@@ -8,8 +8,6 @@ import com.google.gson.GsonBuilder;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Scanner;
 
 public class DAOImpl implements IDAO {
@@ -36,8 +34,8 @@ public class DAOImpl implements IDAO {
 //        Timestamp ts = new Timestamp(new Date().getTime());
 //        System.out.println(ts);
 //        System.out.println(new Date());
-//        System.out.println("########################################################################");
-//        System.out.println(stringJson);
+        System.out.println("########################################################################");
+        System.out.println(stringJson);
         conn.setReadTimeout(10000);
         conn.setConnectTimeout(15000);
         try {

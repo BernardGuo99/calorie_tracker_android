@@ -1,10 +1,8 @@
 package com.example.calorietrackerapp.controller.asynctask;
 
 import android.os.AsyncTask;
-import android.widget.TextView;
 
-import com.example.calorietrackerapp.R;
-import com.example.calorietrackerapp.restclient.google_custom_search.TextSearch;
+import com.example.calorietrackerapp.model.google_custom_search.TextSearch;
 
 public class TextSearchAsyncTask extends AsyncTask<String, Void, String> {
     @Override

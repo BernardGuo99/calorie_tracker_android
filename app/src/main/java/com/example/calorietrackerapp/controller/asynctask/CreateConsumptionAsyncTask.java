@@ -1,15 +1,11 @@
 package com.example.calorietrackerapp.controller.asynctask;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.example.calorietrackerapp.restclient.entity.AppUser;
-import com.example.calorietrackerapp.restclient.entity.Consumption;
-import com.example.calorietrackerapp.restclient.entity.Food;
-import com.example.calorietrackerapp.restclient.service.ConsumptionService;
-import com.example.calorietrackerapp.restclient.service.FoodService;
+import com.example.calorietrackerapp.model.entity.AppUser;
+import com.example.calorietrackerapp.model.entity.Consumption;
+import com.example.calorietrackerapp.model.service.ConsumptionService;
+import com.example.calorietrackerapp.model.service.FoodService;
 
 import java.util.Date;
 import java.util.UUID;

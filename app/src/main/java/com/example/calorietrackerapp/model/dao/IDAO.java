@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient.dao;
+package com.example.calorietrackerapp.model.dao;
 
 import java.net.HttpURLConnection;
 

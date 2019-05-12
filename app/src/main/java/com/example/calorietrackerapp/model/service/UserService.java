@@ -1,9 +1,9 @@
-package com.example.calorietrackerapp.restclient.service;
+package com.example.calorietrackerapp.model.service;
 
-import com.example.calorietrackerapp.restclient.dao.DAOImpl;
-import com.example.calorietrackerapp.restclient.dao.IDAO;
-import com.example.calorietrackerapp.restclient.entity.AppUser;
-import com.example.calorietrackerapp.restclient.entity.Credential;
+import com.example.calorietrackerapp.model.dao.DAOImpl;
+import com.example.calorietrackerapp.model.dao.IDAO;
+import com.example.calorietrackerapp.model.entity.AppUser;
+import com.example.calorietrackerapp.model.entity.Credential;
 import com.example.calorietrackerapp.utils.PasswordHash256;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

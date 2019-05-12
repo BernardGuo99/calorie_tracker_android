@@ -2,7 +2,7 @@ package com.example.calorietrackerapp.controller.asynctask;
 
 import android.os.AsyncTask;
 
-import com.example.calorietrackerapp.restclient.service.FoodService;
+import com.example.calorietrackerapp.model.service.FoodService;
 
 import java.util.List;
 

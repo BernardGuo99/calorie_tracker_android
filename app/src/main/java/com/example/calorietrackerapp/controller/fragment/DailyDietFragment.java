@@ -1,7 +1,6 @@
 package com.example.calorietrackerapp.controller.fragment;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,9 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -37,8 +34,8 @@ import com.example.calorietrackerapp.controller.asynctask.QueryFoodByNameAsyncta
 import com.example.calorietrackerapp.controller.asynctask.TextSearchAsyncTask;
 import com.example.calorietrackerapp.controller.asynctask.UsdaFoodListSearchAsyncTask;
 import com.example.calorietrackerapp.controller.asynctask.UsdaFoodNutritionAsyncTask;
-import com.example.calorietrackerapp.restclient.entity.Food;
-import com.example.calorietrackerapp.restclient.google_custom_search.ImageSearch;
+import com.example.calorietrackerapp.model.entity.Food;
+import com.example.calorietrackerapp.model.google_custom_search.ImageSearch;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -88,7 +85,7 @@ public class DailyDietFragment extends Fragment {
 
 
     private String newFoodName;
-    private int newFoodFat;
+    private double newFoodFat;
     private double newFoodCalorie;
     private String newFoodServing;
 
@@ -107,6 +104,8 @@ public class DailyDietFragment extends Fragment {
         categoryList.add("Bread");
         categoryList.add("Drink");
         categoryList.add("Seafood");
+        categoryList.add("Others");
+
         final ArrayAdapter<String> categorySpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoryList);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         foodCategorySpinner.setAdapter(categorySpinnerAdapter);
@@ -150,6 +149,7 @@ public class DailyDietFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PopAddNewFoodActivity.class);
                 intent.putExtra("Category", foodCategorySpinner.getSelectedItemPosition());
                 intent.putExtra("Name", newFoodName);
+
                 intent.putExtra("Calorie", newFoodCalorie);
                 intent.putExtra("Fat", newFoodFat);
                 intent.putExtra("Serving", newFoodServing);
@@ -188,11 +188,10 @@ public class DailyDietFragment extends Fragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (spinnerFoodList.size() > 1) {
-                        final ArrayAdapter<String> foodSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerFoodList);
-                        foodSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        itemsSpinner.setAdapter(foodSpinnerAdapter);
-                    }
+                    final ArrayAdapter<String> foodSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerFoodList);
+                    foodSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    itemsSpinner.setAdapter(foodSpinnerAdapter);
+
                 }
             }
 
@@ -278,9 +277,7 @@ public class DailyDietFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 viewFlipper.showNext();
-                //((MainActivity) getActivity()).getSupportActionBar().hide();
-//                FragmentManager fragmentManager = getFragmentManager();
-//                fragmentManager.beginTransaction().replace(R.id.content_frame, new AddNewFoodFragment()).commit();
+
             }
         });
 
@@ -312,7 +309,7 @@ public class DailyDietFragment extends Fragment {
 
                         newFoodName = foodNameString;
                         newFoodCalorie = Double.parseDouble(nutritionMap.get("Energy"));
-                        newFoodFat = (int) Math.round(Double.parseDouble(nutritionMap.get("Fat")));
+                        newFoodFat = Double.parseDouble(nutritionMap.get("Fat"));
                         newFoodServing = nutritionMap.get("Serving");
 
                         SpannableStringBuilder ssbNewCal = new SpannableStringBuilder("Energy  " + newFoodCalorie + "Cal");
@@ -327,14 +324,6 @@ public class DailyDietFragment extends Fragment {
                         SpannableStringBuilder ssbNewProtein = new SpannableStringBuilder("Protein  " + nutritionMap.get("Protein") + "g");
                         ssbNewProtein.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         newProteinTextView.setText(ssbNewProtein);
-
-
-//                        energy = nutritionMap.get("Energy");
-//                        serving = nutritionMap.get("Serving");
-//                        fat = nutritionMap.get("Fat");
-//                        protein = nutritionMap.get("Protein");
-//
-//                        System.out.println(energy + serving + fat + protein);
 
 
                     } catch (ExecutionException e) {
@@ -369,7 +358,6 @@ public class DailyDietFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 foodListArray.clear();
                 timer = new Timer();
                 timer.schedule(new TimerTask() {

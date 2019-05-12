@@ -29,9 +29,9 @@ import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.asynctask.CheckEmailExistAsyncTask;
 import com.example.calorietrackerapp.controller.asynctask.CheckUserNameAsyncTask;
 import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
-import com.example.calorietrackerapp.restclient.service.UserService;
-import com.example.calorietrackerapp.restclient.entity.AppUser;
-import com.example.calorietrackerapp.restclient.entity.Credential;
+import com.example.calorietrackerapp.model.service.UserService;
+import com.example.calorietrackerapp.model.entity.AppUser;
+import com.example.calorietrackerapp.model.entity.Credential;
 import com.example.calorietrackerapp.utils.InputValidator;
 import com.example.calorietrackerapp.utils.PasswordHash256;
 
@@ -536,7 +536,7 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
         String address = addressText.getText().toString().trim();
         if (steps.length() == 0) {
             pass = false;
-            stepsLayout.setError("Steps Per Mile is required");
+            stepsLayout.setError("Step Per Mile is required");
             stepsPerMileText.requestFocus();
         }
         if (postcode.length() == 0) {

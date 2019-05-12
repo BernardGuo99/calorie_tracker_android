@@ -2,7 +2,7 @@ package com.example.calorietrackerapp.controller.asynctask;
 
 import android.os.AsyncTask;
 
-import com.example.calorietrackerapp.restclient.usda_food_search.UsdaFoodSearch;
+import com.example.calorietrackerapp.model.usda_food_search.UsdaFoodSearch;
 
 import java.util.Map;
 

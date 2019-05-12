@@ -1,11 +1,10 @@
-package com.example.calorietrackerapp.restclient.google_custom_search;
+package com.example.calorietrackerapp.model.google_custom_search;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TextSearch {

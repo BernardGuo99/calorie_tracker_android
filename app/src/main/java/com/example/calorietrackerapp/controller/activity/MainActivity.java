@@ -2,11 +2,8 @@ package com.example.calorietrackerapp.controller.activity;
 
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,14 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.asynctask.FindCurrentUserAsynctask;
 import com.example.calorietrackerapp.controller.fragment.DailyDietFragment;
 import com.example.calorietrackerapp.controller.fragment.DisplayHomeFragment;
+import com.example.calorietrackerapp.controller.fragment.GoogleMapFragment;
+import com.example.calorietrackerapp.controller.fragment.StepsFragment;
 import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
 
 public class MainActivity extends AppCompatActivity
@@ -38,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,6 +57,8 @@ public class MainActivity extends AppCompatActivity
             String from = bundle.getString("From");
             if ("popFoodAmount".equals(from)) {
                 fragmentManager.beginTransaction().replace(R.id.content_frame, new DailyDietFragment()).commit();
+            } else if ("popStepsAmount".equals(from)) {
+                fragmentManager.beginTransaction().replace(R.id.content_frame, new StepsFragment()).commit();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,6 +115,12 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_daily_calorie_page:
                 nextFragment = new DailyDietFragment();
+                break;
+            case R.id.nav_my_steps_page:
+                nextFragment = new StepsFragment();
+                break;
+            case R.id.nav_google_map_page:
+                nextFragment = new GoogleMapFragment();
                 break;
         }
         FragmentManager fragmentManager = getFragmentManager();

@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient.google_custom_search;
+package com.example.calorietrackerapp.model.google_custom_search;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

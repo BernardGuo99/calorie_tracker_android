@@ -1,4 +1,4 @@
-package com.example.calorietrackerapp.restclient.usda_food_search;
+package com.example.calorietrackerapp.model.usda_food_search;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,10 +107,10 @@ public class UsdaFoodSearch {
 
     public static Map<String, String> getNutritionValue(String result) {
         Map<String, String> nutritionMap = new HashMap<>();
-        String energy = "";
-        String serving = "";
-        String fat = "";
-        String protein = "";
+        String energy = "0";
+        String serving = "No Info";
+        String fat = "0";
+        String protein = "0";
         try {
             JSONArray jsonArray = new JSONObject(result).getJSONArray("foods");
             if (jsonArray != null) {
@@ -123,20 +123,26 @@ public class UsdaFoodSearch {
                         case "208":
                             energy = nutrientObject.getString("value");
                             serving = nutrientObject.getJSONArray("measures").getJSONObject(0).getString("label");
-                            nutritionMap.put("Energy", energy);
-                            nutritionMap.put("Serving", serving);
+
                             break;
                         case "203":
                             protein = nutrientObject.getString("value");
-                            nutritionMap.put("Protein", protein);
+                            serving = nutrientObject.getJSONArray("measures").getJSONObject(0).getString("label");
+
                             break;
                         case "204":
                             fat = nutrientObject.getString("value");
-                            nutritionMap.put("Fat", fat);
+                            serving = nutrientObject.getJSONArray("measures").getJSONObject(0).getString("label");
                             break;
                         default:
                             break;
                     }
+                    nutritionMap.put("Energy", energy);
+                    nutritionMap.put("Serving", serving);
+                    nutritionMap.put("Protein", protein);
+                    nutritionMap.put("Fat", fat);
+
+
                 }
             }
 
