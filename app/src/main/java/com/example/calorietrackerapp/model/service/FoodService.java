@@ -47,7 +47,6 @@ public class FoodService {
     }
 
     public Food getFoodByName(String foodName) {
-
         try {
             path = "restws.food/findByFoodName/" + URLEncoder.encode(foodName, "utf-8").replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException e) {

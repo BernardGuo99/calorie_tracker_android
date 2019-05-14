@@ -14,14 +14,14 @@
         android:weightSum="3">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            app:srcCompat="@mipmap/fitness_santa" />
+            app:srcCompat="@mipmap/workoutcalorie" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_weight="2"
@@ -34,16 +34,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:gravity="bottom|center_horizontal"
+                android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="18dp"
-                android:textStyle="bold"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:gravity="bottom|center_horizontal"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextClock
@@ -53,7 +53,7 @@
                     android:background="@color/lightgGreen"
                     android:gravity="bottom|center_horizontal"
                     android:textColor="@color/btnColor1"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
@@ -62,11 +62,148 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_calorie_left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightgGreen"
+            android:gravity="center"
+            android:paddingVertical="5dp"
+            android:text="hdjfhdjLeft"
+            android:textColor="@color/btnColor1"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+
+                <TextView
+                    android:id="@+id/tv_calorie_consumed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/lightgGreen"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_calorie_consumed_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="Consumed"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+
+                <TextView
+                    android:id="@+id/tv_calorie_burned"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_calorie_burned_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="Burned"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+
+                <TextView
+                    android:id="@+id/tv_calorie_net"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_calorie_net_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="Net"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ddd"></View>
+
+        <TextView
+            android:id="@+id/tv_daily_total_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:paddingVertical="16dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/set_goal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@drawable/border_background"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/set_goal">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_goal_head"
@@ -75,16 +212,16 @@
 
             android:text="Custom Your Calorie Goal For Today"
             android:textColor="@color/black"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/goal_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text=""
             android:textColor="@color/darkGreen"
-            android:textSize="14dp"
-            android:text=""/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/goal_detail"
@@ -92,7 +229,7 @@
             android:layout_height="wrap_content"
             android:text="Set your today's calorie goal. We recommend calorie goals be between 1200 and 9000 per day, unless you have received specific recommendations for calorie intake from a doctor or nutritionist."
             android:textColor="@color/black"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 </LinearLayout>

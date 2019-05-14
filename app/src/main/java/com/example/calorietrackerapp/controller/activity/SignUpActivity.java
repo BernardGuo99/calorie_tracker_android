@@ -94,10 +94,10 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
         btnPrevious = findViewById(R.id.b_previous);
         btnGo = findViewById(R.id.b_go);
         List<String> list = new ArrayList<>();
-        list.add("Sedentary");
+        list.add("Little/no exercise");
         list.add("Lightly Active");
         list.add("Moderately Active");
-        list.add("Moderately to Highly Active");
+        list.add("Very Active");
         list.add("Highly Active");
         levelOfActivityText = (Spinner) findViewById(R.id.activity_level_spinner);
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
@@ -570,7 +570,7 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
 
             String levelOfActivity = "0";
             switch (levelOfActivityText.getSelectedItem().toString()) {
-                case "Sedentary":
+                case "Little/no exercise":
                     levelOfActivity = "1";
                     break;
                 case "Lightly Active":
@@ -579,7 +579,7 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
                 case "Moderately Active":
                     levelOfActivity = "3";
                     break;
-                case "Moderately to Highly Active":
+                case "Very Active":
                     levelOfActivity = "4";
                     break;
                 case "Highly Active":
@@ -611,12 +611,12 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
     }
 
 
-    private class CreateUserAndCredentialAsyncTask extends AsyncTask<String, Void, String> {
+    private class CreateUserAndCredentialAsyncTask extends AsyncTask<String, Void, Void> {
         UserService userService = new UserService();
 
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Void doInBackground(String... params) {
             SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
             SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
             AppUser appUser = new AppUser(UUID.randomUUID().toString());
@@ -646,9 +646,11 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
 
             SharedPreferences.Editor spEditor = sharedPref.edit();
             spEditor.putString("user_id", appUser.getUserId());
+            spEditor.putString("user_address", appUser.getAddress());
+            spEditor.putString("username", credential.getUserName());
             spEditor.apply();
 
-            return "Course was added";
+            return null;
         }
     }
 

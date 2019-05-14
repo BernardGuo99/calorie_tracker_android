@@ -18,41 +18,49 @@
             android:id="@+id/inputLayoutStepsCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:theme="@style/TextLabel"
-            app:errorTextAppearance="@style/error_appearance"
-            android:layout_weight="3">
+            app:errorTextAppearance="@style/error_appearance">
 
             <EditText
                 android:id="@+id/et_enter_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
                 android:hint="Enter Steps"
                 android:inputType="number"
-                android:theme="@style/LineColor"
-                android:layout_marginRight="20dp"
-                />
+                android:theme="@style/LineColor" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/b_add_steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="ADD"
             android:textColor="@color/btnColor1"
             android:textStyle="bold"
-            android:layout_weight="1"
 
             android:theme="@style/GreenButton" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_total_steps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/steps_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:background="@drawable/border_background"
-        />
+        android:background="@drawable/border_background" />
 
 
 </LinearLayout>

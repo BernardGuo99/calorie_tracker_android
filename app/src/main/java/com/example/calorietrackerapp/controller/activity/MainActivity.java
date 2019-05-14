@@ -17,15 +17,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.calorietrackerapp.R;
-import com.example.calorietrackerapp.controller.asynctask.FindCurrentUserAsynctask;
 import com.example.calorietrackerapp.controller.fragment.DailyDietFragment;
 import com.example.calorietrackerapp.controller.fragment.DisplayHomeFragment;
 import com.example.calorietrackerapp.controller.fragment.GoogleMapFragment;
 import com.example.calorietrackerapp.controller.fragment.StepsFragment;
-import com.example.calorietrackerapp.controller.my_interface.InterfaceForResult;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, InterfaceForResult {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     NavigationView navigationView;
 
@@ -66,9 +64,12 @@ public class MainActivity extends AppCompatActivity
 
 
         SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
-        String userId = sharedPref.getString("user_id", null);
-        FindCurrentUserAsynctask findCurrentUserAsynctask = new FindCurrentUserAsynctask(this);
-        findCurrentUserAsynctask.execute(userId);
+        String userName = sharedPref.getString("username", null);
+
+
+        View header = navigationView.getHeaderView(0);
+        TextView tvv = (TextView) header.findViewById(R.id.textView);
+        tvv.setText(userName);
     }
 
     @Override
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home_page:
                 nextFragment = new DisplayHomeFragment();
                 break;
-            case R.id.nav_daily_calorie_page:
+            case R.id.nav_daily_diet_page:
                 nextFragment = new DailyDietFragment();
                 break;
             case R.id.nav_my_steps_page:
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_google_map_page:
                 nextFragment = new GoogleMapFragment();
                 break;
+
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
@@ -130,12 +132,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void done(Object result) {
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView.setNavigationItemSelectedListener(this);
-        View header = navigationView.getHeaderView(0);
-        TextView tvv = (TextView) header.findViewById(R.id.textView);
-        tvv.setText(result.toString());
-    }
 }

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.activity.MainActivity;
@@ -25,7 +26,6 @@ import com.example.calorietrackerapp.controller.activity.PopEditStepsActivity;
 import com.example.calorietrackerapp.model.room_database.Step;
 import com.example.calorietrackerapp.model.room_database.StepDatabase;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +38,7 @@ public class StepsFragment extends Fragment {
     private EditText enterStepsEditText;
     private TextInputLayout enterStepsLayout;
     private Button addStepsButton;
+    private TextView stepsTotalTextView;
 
 
     List<HashMap<String, String>> stepsListArray;
@@ -62,6 +63,7 @@ public class StepsFragment extends Fragment {
         enterStepsEditText = vMySteps.findViewById(R.id.et_enter_steps);
         enterStepsLayout = vMySteps.findViewById(R.id.inputLayoutStepsCount);
         addStepsButton = vMySteps.findViewById(R.id.b_add_steps);
+        stepsTotalTextView = vMySteps.findViewById(R.id.tv_total_steps);
 
 
         stepsList = vMySteps.findViewById(R.id.steps_list);
@@ -70,8 +72,8 @@ public class StepsFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("user_auth", Context.MODE_PRIVATE);
         userId = sharedPref.getString("user_id", null);
 
-        ReadAllSStepsAsyncTask readAllSStepsAsyncTask = new ReadAllSStepsAsyncTask();
-        readAllSStepsAsyncTask.execute(userId);
+        ReadAllStepsAsyncTask readAllStepsAsyncTask = new ReadAllStepsAsyncTask();
+        readAllStepsAsyncTask.execute(userId);
 
 
         addStepsButton.setOnClickListener(new View.OnClickListener() {
@@ -86,8 +88,8 @@ public class StepsFragment extends Fragment {
                     AddStepsAsyncTask addStepsAsyncTask = new AddStepsAsyncTask();
                     addStepsAsyncTask.execute(userId, stepsEntered);
 
-                    ReadAllSStepsAsyncTask readAllSStepsAsyncTask = new ReadAllSStepsAsyncTask();
-                    readAllSStepsAsyncTask.execute(userId);
+                    ReadAllStepsAsyncTask readAllStepsAsyncTask = new ReadAllStepsAsyncTask();
+                    readAllStepsAsyncTask.execute(userId);
 
                     enterStepsEditText.setText("");
                     enterStepsEditText.clearFocus();
@@ -133,7 +135,7 @@ public class StepsFragment extends Fragment {
         }
     }
 
-    private class ReadAllSStepsAsyncTask extends AsyncTask<String, Void, List<Step>> {
+    private class ReadAllStepsAsyncTask extends AsyncTask<String, Void, List<Step>> {
 
         @Override
         protected List<Step> doInBackground(String... params) {
@@ -143,6 +145,7 @@ public class StepsFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Step> steps) {
             stepsListArray.clear();
+            Integer totalSteps = 0;
 
             HashMap<String, String> map0 = new HashMap<>();
             map0.put("StepsCount", "STEPS");
@@ -150,6 +153,7 @@ public class StepsFragment extends Fragment {
             addMap(map0);
             for (Step step : steps) {
                 HashMap<String, String> map = new HashMap<>();
+                totalSteps += step.getStepCount();
 
                 map.put("StepsCount", String.valueOf(step.getStepCount()));
                 map.put("CreatedTime", step.getCreatedTime());
@@ -157,16 +161,14 @@ public class StepsFragment extends Fragment {
                 map.put("UserId", step.getUserId());
                 map.put("CreateTime", step.getCreatedTime());
                 addMap(map);
-
-
             }
+            stepsTotalTextView.setText("Steps Today: " + totalSteps);
         }
     }
 
     protected void addMap(HashMap map) {
         stepsListArray.add(map);
-        myListAdapter = new
-                SimpleAdapter(getActivity(), stepsListArray, R.layout.steps_list_view, colHEAD, dataCell);
+        myListAdapter = new SimpleAdapter(getActivity(), stepsListArray, R.layout.steps_list_view, colHEAD, dataCell);
         stepsList.setAdapter(myListAdapter);
     }
 }

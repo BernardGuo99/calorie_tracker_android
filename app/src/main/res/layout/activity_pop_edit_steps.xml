@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Edit Your Steps"
+                android:inputType="number"
                 android:paddingBottom="15dp"
                 android:theme="@style/LineColor" />
         </android.support.design.widget.TextInputLayout>

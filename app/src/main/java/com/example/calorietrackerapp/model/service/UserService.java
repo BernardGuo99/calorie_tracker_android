@@ -37,6 +37,7 @@ public class UserService {
         return true;
     }
 
+
     public boolean checkUserNameExistence(String userName) {
         path = "restws.credential";
         String credentials = dao.find(path);
@@ -80,14 +81,22 @@ public class UserService {
         return userId;
     }
 
-    public String findFirstNameById(String userId) {
+    public AppUser findUserById(String userId) {
         path = "restws.appuser/" + userId;
         String user = dao.find(path);
-        String firstName = "";
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-        AppUser arr = gson.fromJson(user, AppUser.class);
-        firstName = arr.getFirstname();
-        return firstName;
+        AppUser appUser = gson.fromJson(user, AppUser.class);
+        return appUser;
+    }
+
+    public String getCalorieBurnedAtRest(String userId) {
+        path = "restws.appuser/totalCaloriesBurnedAtRest/" + userId;
+        return dao.find(path);
+    }
+
+    public String getUserCaloriePerStep(String userId) {
+        path = "restws.appuser/caloriesBurnedPerStepByUser/" + userId;
+        return dao.find(path);
     }
 
 }

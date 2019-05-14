@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.calorietrackerapp.R;
+import com.example.calorietrackerapp.model.entity.AppUser;
 import com.example.calorietrackerapp.model.service.UserService;
 
 import java.util.concurrent.ExecutionException;
@@ -138,9 +139,17 @@ public class LoginActivity extends AppCompatActivity {
             if (valid == true) {
                 SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
                 SharedPreferences.Editor spEditor = sharedPref.edit();
-                spEditor.putString("user_id", userService.getUserIdByUserName(params[0]));
+                String userId = userService.getUserIdByUserName(params[0]);
+                spEditor.putString("user_id", userId);
+                AppUser appUser = userService.findUserById(userId);
+                System.out.println(appUser.getAddress());
+                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                spEditor.putString("user_address", appUser.getAddress());
+                spEditor.putString("username", params[0]);
+
+
                 spEditor.apply();
-                System.out.println(sharedPref.getString("user_id", null));
+                //            System.out.println(sharedPref.getString("user_id", null));
             }
             return valid;
         }

@@ -5,8 +5,8 @@
             android:id="@+id/nav_home_page"
             android:title="Home" />
         <item
-            android:id="@+id/nav_daily_calorie_page"
-            android:title="My Daily Calorie" />
+            android:id="@+id/nav_daily_diet_page"
+            android:title="My Daily Diet" />
         <item
             android:id="@+id/nav_my_steps_page"
             android:title="My Steps" />
