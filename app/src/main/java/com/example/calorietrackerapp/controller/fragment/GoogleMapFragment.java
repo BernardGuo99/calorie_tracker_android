@@ -3,6 +3,9 @@ package com.example.calorietrackerapp.controller.fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -21,8 +24,11 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -66,9 +72,16 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         String user_address = sharedPref.getString("user_address", "");
         LatLng coordinates = getCoordinates(user_address);
 
-        mGoogleMap.addMarker(new MarkerOptions().position(coordinates).title("My Home").snippet(user_address));
-        CameraPosition liberty = CameraPosition.builder().target(coordinates).zoom(12).bearing(0).build();
+
+        mGoogleMap.addMarker(new MarkerOptions().position(coordinates).title("My Home").snippet(user_address)).showInfoWindow();
+        CameraPosition liberty = CameraPosition.builder().target(coordinates).zoom(13).bearing(0).build();
         mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(liberty));
+
+        Circle circle = mGoogleMap.addCircle(new CircleOptions()
+                .center(coordinates)
+                .radius(5000)
+                .strokeColor(Color.rgb(255,127,80))
+                .fillColor(Color.parseColor("#2271cce7")));
 
         GetAllNearbyAsyncTask getAllNearbyAsyncTask = new GetAllNearbyAsyncTask();
         getAllNearbyAsyncTask.execute(String.valueOf(coordinates.latitude), String.valueOf(coordinates.longitude));
@@ -111,7 +124,12 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
             for (String[] park : list) {
                 double latitude = Double.parseDouble(park[0]);
                 double langitude = Double.parseDouble(park[1]);
-                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, langitude)).title(park[2]).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.placeholder);
+                Bitmap b = bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+
+                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, langitude)).title(park[2]).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
             }
         }
     }

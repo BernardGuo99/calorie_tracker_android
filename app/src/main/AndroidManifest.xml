@@ -51,6 +51,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <uses-library android:name="org.apache.http.legacy" android:required="true"/>
+        <service
+            android:name=".controller.schedule.ScheduledIntentService"
+            android:exported="false" />
 
 
     </application>

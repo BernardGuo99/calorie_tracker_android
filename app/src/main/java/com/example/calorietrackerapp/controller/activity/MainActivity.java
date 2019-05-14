@@ -1,10 +1,15 @@
 package com.example.calorietrackerapp.controller.activity;
 
+import android.app.AlarmManager;
 import android.app.FragmentManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,11 +26,19 @@ import com.example.calorietrackerapp.controller.fragment.DailyDietFragment;
 import com.example.calorietrackerapp.controller.fragment.DisplayHomeFragment;
 import com.example.calorietrackerapp.controller.fragment.GoogleMapFragment;
 import com.example.calorietrackerapp.controller.fragment.StepsFragment;
+import com.example.calorietrackerapp.controller.fragment.WriteToDbFragment;
+import com.example.calorietrackerapp.controller.schedule.ScheduledIntentService;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     NavigationView navigationView;
+
+    private AlarmManager alarmMgr;
+    private Intent alarmIntent;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +46,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Log.i(" Starting in Activity ", "Generate report everyday at 23:59!!!");
+        Calendar calendar = Calendar.getInstance();
+        //calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 0);
+        System.out.println(calendar.getTime());
+
+
+        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmIntent = new Intent(this, ScheduledIntentService.class);
+        pendingIntent = PendingIntent.getService(this, 0, alarmIntent, 0);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -122,6 +150,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_google_map_page:
                 nextFragment = new GoogleMapFragment();
+                break;
+            case R.id.nav_write_to_db_page:
+                nextFragment = new WriteToDbFragment();
                 break;
 
         }

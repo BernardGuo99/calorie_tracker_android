@@ -38,30 +38,34 @@ public class PopGoalActivity extends AppCompatActivity {
         goalText = findViewById(R.id.edit_calorie);
         goalLayout = findViewById(R.id.inputLayoutEditCalorie);
         SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
+
+
+        SharedPreferences sharedPrefGoal = getSharedPreferences("user_goal", Context.MODE_PRIVATE);
+
         String userId = sharedPref.getString("user_id", "");
-        String currentValue = sharedPref.getString(userId + "Goal", "");
+        String currentValue = sharedPrefGoal.getString(userId + "Goal", "");
         goalText.setText(currentValue);
 
-        goalText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (goalText.length() == 0) {
-                    saveButton.setEnabled(false);
-                } else {
-                    saveButton.setEnabled(true);
-                }
-            }
-        });
+//        goalText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (goalText.length() == 0) {
+//                    saveButton.setEnabled(false);
+//                } else {
+//                    saveButton.setEnabled(true);
+//                }
+//            }
+//        });
 
 
         saveButton = findViewById(R.id.b_save);
@@ -75,8 +79,9 @@ public class PopGoalActivity extends AppCompatActivity {
                 } else {
 
                     SharedPreferences sharedPref = getSharedPreferences("user_auth", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPrefGoal = getSharedPreferences("user_goal", Context.MODE_PRIVATE);
                     String userId = sharedPref.getString("user_id", "");
-                    SharedPreferences.Editor spEditor = sharedPref.edit();
+                    SharedPreferences.Editor spEditor = sharedPrefGoal.edit();
                     spEditor.putString(userId + "Goal", calorieGoal);
                     spEditor.apply();
                     Intent intent = new Intent(PopGoalActivity.this, MainActivity.class);

@@ -36,5 +36,8 @@ public interface StepDao {
     @Query("DELETE FROM step")
     void deleteAll();
 
+    @Query("DELETE FROM Step WHERE user_id = :userId")
+    void deleteByUserId(String userId);
+
 
 }

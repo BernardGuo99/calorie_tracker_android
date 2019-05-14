@@ -49,14 +49,20 @@ public class DisplayHomeFragment extends Fragment {
         calorieNetTextView = vHomepage.findViewById(R.id.tv_calorie_net);
         stepsTextView = vHomepage.findViewById(R.id.tv_daily_total_steps);
 
+
         db = Room.databaseBuilder(getActivity().getApplicationContext(),
                 StepDatabase.class, "StepDatabase")
                 .fallbackToDestructiveMigration()
                 .build();
 
+
         SharedPreferences sharedPref = getActivity().getSharedPreferences("user_auth", Context.MODE_PRIVATE);
+        SharedPreferences sharedPrefGoal = getActivity().getSharedPreferences("user_goal", Context.MODE_PRIVATE);
         String userName = sharedPref.getString("username", "");
         String userId = sharedPref.getString("user_id", null);
+
+        SharedPreferences.Editor spEditor = sharedPrefGoal.edit();
+        spEditor.putString(userId + "Goal", "");
 
         tv.setText("Welcome to Calorie Tracker, " + userName + "!");
 
@@ -65,7 +71,7 @@ public class DisplayHomeFragment extends Fragment {
         textClock.setFormat12Hour("HH:mm:ss MMM d, yyyy");
 
         goalValueText = vHomepage.findViewById(R.id.goal_value);
-        String setGoal = sharedPref.getString(userId + "Goal", "");
+        String setGoal = sharedPrefGoal.getString(userId + "Goal", "");
         if (setGoal.length() != 0) {
             goalValueText.setText(setGoal + " Cal");
         }
@@ -132,7 +138,7 @@ public class DisplayHomeFragment extends Fragment {
 
             String left = "";
 
-            SharedPreferences sharedPref = getActivity().getSharedPreferences("user_auth", Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("user_goal", Context.MODE_PRIVATE);
             String goal = sharedPref.getString(params[0] + "Goal", "");
 
             if (goal.length() != 0) {
@@ -153,7 +159,9 @@ public class DisplayHomeFragment extends Fragment {
             calorieConsumedTextView.setText(s[0]);
             calorieBurnedTextView.setText(s[1]);
             calorieNetTextView.setText(s[2]);
-            if (!s[3].contains("-")) {
+            if ("Set Your Calorie Goal At the Bottom".equals(s[3])) {
+                calorieLeftTextView.setText(s[3]);
+            } else if (!s[3].contains("-")) {
                 calorieLeftTextView.setText(s[3] + " calories left");
             } else {
                 String reverse = s[3].substring(1);
