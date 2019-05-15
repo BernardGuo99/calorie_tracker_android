@@ -31,7 +31,7 @@ public class DisplayHomeFragment extends Fragment {
     private View vHomepage;
     private LinearLayout goalLayout;
     private TextView goalValueText;
-    private TextView calorieLeftTextView;
+    private TextView calorieRemainingTextView;
     private TextView calorieConsumedTextView;
     private TextView calorieBurnedTextView;
     private TextView calorieNetTextView;
@@ -43,7 +43,7 @@ public class DisplayHomeFragment extends Fragment {
         vHomepage = inflater.inflate(R.layout.fragment_main, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Calorie Tracker");
         TextView tv = vHomepage.findViewById(R.id.tv);
-        calorieLeftTextView = vHomepage.findViewById(R.id.tv_calorie_left);
+        calorieRemainingTextView = vHomepage.findViewById(R.id.tv_calorie_left);
         calorieConsumedTextView = vHomepage.findViewById(R.id.tv_calorie_consumed);
         calorieBurnedTextView = vHomepage.findViewById(R.id.tv_calorie_burned);
         calorieNetTextView = vHomepage.findViewById(R.id.tv_calorie_net);
@@ -136,20 +136,20 @@ public class DisplayHomeFragment extends Fragment {
             long totalBurnedNumber = Math.round(burnedAtRest + totalBurnedBySteps);
             long netNumber = consumedNumber - totalBurnedNumber;
 
-            String left = "";
+            String remaining = "";
 
             SharedPreferences sharedPref = getActivity().getSharedPreferences("user_goal", Context.MODE_PRIVATE);
             String goal = sharedPref.getString(params[0] + "Goal", "");
 
             if (goal.length() != 0) {
-                left = String.valueOf(Long.parseLong(goal) - netNumber);
+                remaining = String.valueOf(netNumber - Long.parseLong(goal));
             } else {
-                left = "Set Your Calorie Goal At the Bottom";
+                remaining = "Set Your Calorie Goal At the Bottom";
             }
             return new String[]{String.valueOf(consumedNumber),
                     String.valueOf(totalBurnedNumber),
                     String.valueOf(netNumber),
-                    left,
+                    remaining,
                     String.valueOf(totalSteps)};
 
         }
@@ -160,12 +160,12 @@ public class DisplayHomeFragment extends Fragment {
             calorieBurnedTextView.setText(s[1]);
             calorieNetTextView.setText(s[2]);
             if ("Set Your Calorie Goal At the Bottom".equals(s[3])) {
-                calorieLeftTextView.setText(s[3]);
-            } else if (!s[3].contains("-")) {
-                calorieLeftTextView.setText(s[3] + " calories left");
-            } else {
+                calorieRemainingTextView.setText(s[3]);
+            } else if (s[3].contains("-")) {
                 String reverse = s[3].substring(1);
-                calorieLeftTextView.setText(reverse + " calories over");
+                calorieRemainingTextView.setText(reverse + " calories DEFICIT");
+            } else {
+                calorieRemainingTextView.setText(s[3] + " calories REMAINING");
             }
 
 

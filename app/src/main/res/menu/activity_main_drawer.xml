@@ -11,6 +11,9 @@
             android:id="@+id/nav_my_steps_page"
             android:title="My Steps" />
         <item
+            android:id="@+id/nav_report_page"
+            android:title="My Report" />
+        <item
             android:id="@+id/nav_google_map_page"
             android:title="My Location" />
         <item

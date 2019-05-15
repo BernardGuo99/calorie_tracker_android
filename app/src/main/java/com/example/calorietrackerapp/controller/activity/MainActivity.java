@@ -25,6 +25,7 @@ import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.fragment.DailyDietFragment;
 import com.example.calorietrackerapp.controller.fragment.DisplayHomeFragment;
 import com.example.calorietrackerapp.controller.fragment.GoogleMapFragment;
+import com.example.calorietrackerapp.controller.fragment.ReportFragment;
 import com.example.calorietrackerapp.controller.fragment.StepsFragment;
 import com.example.calorietrackerapp.controller.fragment.WriteToDbFragment;
 import com.example.calorietrackerapp.controller.schedule.ScheduledIntentService;
@@ -153,6 +154,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_write_to_db_page:
                 nextFragment = new WriteToDbFragment();
+                break;
+            case R.id.nav_report_page:
+                nextFragment = new ReportFragment();
                 break;
 
         }

@@ -46,5 +46,6 @@ dependencies {
     implementation files('libs/commons-logging-1.2-javadoc.jar')
 
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 
 }
