@@ -6,41 +6,157 @@
     android:layout_marginTop="?android:attr/actionBarSize"
     android:orientation="vertical">
 
+
     <LinearLayout
+        android:id="@+id/layout_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="8">
 
-        <TextView
-            android:id="@+id/tv_single_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SELECT A DATE"
-            android:textSize="@dimen/form_head_size" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/inputLayout_single_date"
+        <ViewFlipper
+            android:id="@+id/view_flipper_chart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextLabel"
-            app:errorTextAppearance="@style/error_appearance">
+            android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/single_date"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:theme="@style/LineColor" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/tv_single_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="32dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/border_background"
+                        android:gravity="center"
+                        android:paddingVertical="8dp"
+                        android:text="SELECT A DATE"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_weight="5"
+                    android:orientation="vertical">
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/piechart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/tv_no_pie"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center"
+                        android:text="NO RECORD"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="vertical"></LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="32dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/border_background"
+                        android:gravity="center"
+                        android:paddingVertical="8dp"
+                        android:text="SELECT A DATE"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_end_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="32dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/border_background"
+                        android:gravity="center"
+                        android:paddingVertical="8dp"
+                        android:text="SELECT A DATE"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_weight="5"
+                    android:orientation="vertical">
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barchart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"></LinearLayout>
+
+            </LinearLayout>
+
+
+        </ViewFlipper>
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/b_change_graph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/layout_chart"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="Change To Periodic Report"
+        android:textStyle="bold"
+        android:theme="@style/WhiteButton" />
 
 
 </RelativeLayout>
