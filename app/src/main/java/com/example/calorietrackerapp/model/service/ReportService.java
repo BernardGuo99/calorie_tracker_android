@@ -1,5 +1,7 @@
 package com.example.calorietrackerapp.model.service;
 
+import android.util.Log;
+
 import com.example.calorietrackerapp.model.dao.DAOImpl;
 import com.example.calorietrackerapp.model.dao.IDAO;
 import com.example.calorietrackerapp.model.entity.Report;
@@ -30,6 +32,7 @@ public class ReportService {
         List<String[]> list = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         path = "restws.report/findUserReportDateRange/" + userId + "/" + sdf.format(startDate) + "/" + sdf.format(endDate);
+
         String result = dao.find(path);
         System.out.println(result);
 
@@ -39,11 +42,11 @@ public class ReportService {
 
         try {
             JSONArray jsonArray = new JSONArray(result);
-            for (int i =0;i<jsonArray.length();i++){
-                if (jsonArray.getJSONObject(i).isNull("caloriesConsumed")){
+            for (int i = 0; i < jsonArray.length(); i++) {
+                if (jsonArray.getJSONObject(i).isNull("caloriesConsumed")) {
                     list.add(new String[]{"0", "0"});
-                }else{
-                    list.add(new String[]{jsonArray.getJSONObject(i).getString("caloriesConsumed"),jsonArray.getJSONObject(i).getString("caloriesBurned")});
+                } else {
+                    list.add(new String[]{jsonArray.getJSONObject(i).getString("caloriesConsumed"), jsonArray.getJSONObject(i).getString("caloriesBurned")});
                 }
             }
         } catch (JSONException e) {

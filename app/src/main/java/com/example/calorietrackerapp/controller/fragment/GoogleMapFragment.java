@@ -11,6 +11,7 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,9 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vGoogleMap = inflater.inflate(R.layout.fragment_google_map, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("My Location");
-
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("user_auth", Context.MODE_PRIVATE);
+        String user_address = sharedPref.getString("user_address", "");
+        Log.i("hehexixi", user_address);
 
         return vGoogleMap;
     }
@@ -71,7 +74,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("user_auth", Context.MODE_PRIVATE);
         String user_address = sharedPref.getString("user_address", "");
         LatLng coordinates = getCoordinates(user_address);
-
+        System.out.println(coordinates.latitude);
 
         mGoogleMap.addMarker(new MarkerOptions().position(coordinates).title("My Home").snippet(user_address)).showInfoWindow();
         CameraPosition liberty = CameraPosition.builder().target(coordinates).zoom(13).bearing(0).build();
@@ -80,7 +83,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
         Circle circle = mGoogleMap.addCircle(new CircleOptions()
                 .center(coordinates)
                 .radius(5000)
-                .strokeColor(Color.rgb(255,127,80))
+                .strokeColor(Color.rgb(255, 127, 80))
                 .fillColor(Color.parseColor("#2271cce7")));
 
         GetAllNearbyAsyncTask getAllNearbyAsyncTask = new GetAllNearbyAsyncTask();

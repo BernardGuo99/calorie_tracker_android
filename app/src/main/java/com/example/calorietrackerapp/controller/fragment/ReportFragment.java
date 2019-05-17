@@ -10,6 +10,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,9 @@ import android.widget.ViewFlipper;
 import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.activity.MainActivity;
 import com.example.calorietrackerapp.model.service.ReportService;
+import com.example.calorietrackerapp.utils.DayAxisValueFormatter;
+import com.example.calorietrackerapp.utils.ValueFormatter;
+import com.example.calorietrackerapp.utils.XYMarkerView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -75,14 +80,22 @@ public class ReportFragment extends Fragment {
         changeChartButton = vReport.findViewById(R.id.b_change_graph);
         startDateTextView = vReport.findViewById(R.id.tv_start_date);
         endDateTextView = vReport.findViewById(R.id.tv_end_date);
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
+        final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.add(Calendar.DATE, -3);
+
+        endDateTextView.setText("To: " + sdf.format(today));
+        startDateTextView.setText("From: " + sdf.format(calendar.getTime()));
 
 
         SetPieChartAsyncTask setPieChartAsyncTask = new SetPieChartAsyncTask();
         setPieChartAsyncTask.execute(new Date());
 
+
         SetBarChartAsyncTask setBarChartAsyncTask = new SetBarChartAsyncTask();
-        setBarChartAsyncTask.execute();
+        setBarChartAsyncTask.execute(calendar.getTime(), today);
 
 
         singleDateTextView.setOnClickListener(new View.OnClickListener() {
@@ -148,9 +161,6 @@ public class ReportFragment extends Fragment {
                 cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 endDateTextView.setText("To: " + sdf.format(cal.getTime()));
-
-                SetPieChartAsyncTask setPieChartAsyncTask = new SetPieChartAsyncTask();
-                setPieChartAsyncTask.execute(cal.getTime());
             }
         };
 
@@ -193,9 +203,6 @@ public class ReportFragment extends Fragment {
                 cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 startDateTextView.setText("From: " + sdf.format(cal.getTime()));
-
-                SetPieChartAsyncTask setPieChartAsyncTask = new SetPieChartAsyncTask();
-                setPieChartAsyncTask.execute(cal.getTime());
             }
         };
 
@@ -209,6 +216,55 @@ public class ReportFragment extends Fragment {
                 } else {
                     flipper.showPrevious();
                     changeChartButton.setText("CHANGE TO PERIODIC REPORT");
+                }
+            }
+        });
+
+
+        startDateTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String start = startDateTextView.getText().toString();
+                String end = endDateTextView.getText().toString();
+                SetBarChartAsyncTask setBarChartAsyncTask = new SetBarChartAsyncTask();
+                try {
+                    setBarChartAsyncTask.execute(sdf.parse(start.substring(start.indexOf(":") + 2)), sdf.parse(end.substring(end.indexOf(":") + 2)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        endDateTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String start = startDateTextView.getText().toString();
+                String end = endDateTextView.getText().toString();
+                SetBarChartAsyncTask setBarChartAsyncTask = new SetBarChartAsyncTask();
+                try {
+                    setBarChartAsyncTask.execute(sdf.parse(start.substring(start.indexOf(":") + 2)), sdf.parse(end.substring(end.indexOf(":") + 2)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -228,15 +284,14 @@ public class ReportFragment extends Fragment {
             String userId = sharedPref.getString("user_id", null);
 
 
-
             try {
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                 List<String[]> hehehe = reportService.getReportsByDateRange(userId, sdf1.parse("2019-05-12"), sdf1.parse("2019-05-17"));
-            System.out.println("UUUUUUUU%%%%%%%%%%%%%%%^&&&&&&&&&&&&&&&&&&(");
-            for (String[] s : hehehe){
-                Log.i("cnm",Arrays.toString(s));
-               System.out.println("1"+Arrays.toString(s));
-            }
+                System.out.println("UUUUUUUU%%%%%%%%%%%%%%%^&&&&&&&&&&&&&&&&&&(");
+                for (String[] s : hehehe) {
+                    Log.i("cnm", Arrays.toString(s));
+                    System.out.println("1" + Arrays.toString(s));
+                }
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -329,26 +384,35 @@ public class ReportFragment extends Fragment {
     }
 
 
-    private class SetBarChartAsyncTask extends AsyncTask<Date, Void, float[]> {
+    private class SetBarChartAsyncTask extends AsyncTask<Date, Void, List<String[]>> {
+        ReportService reportService = new ReportService();
 
         @Override
-        protected float[] doInBackground(Date... dates) {
+        protected List<String[]> doInBackground(Date... dates) {
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("user_auth", Context.MODE_PRIVATE);
+            String userId = sharedPref.getString("user_id", null);
+            Log.i("hehe", dates[0].toString());
+            Log.i("hehe", dates[1].toString());
+            return reportService.getReportsByDateRange(userId, dates[0], dates[1]);
 
-
-            return new float[0];
         }
 
 
         @Override
-        protected void onPostExecute(float[] floats) {
+        protected void onPostExecute(List<String[]> lists) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
+            SimpleDateFormat sdfBar = new SimpleDateFormat("MMMM dd");
+
             BarChart chart = vReport.findViewById(R.id.barchart);
             chart.getDescription().setEnabled(false);
 
+            chart.setFitBars(true);
             chart.setPinchZoom(false);
 
             chart.setDrawBarShadow(false);
 
-            chart.setDrawGridBackground(false);
+
+            //chart.setExtraOffsets(50, 10, 50, 10);
 
             Legend l = chart.getLegend();
             l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -358,16 +422,16 @@ public class ReportFragment extends Fragment {
             l.setYOffset(0f);
             l.setXOffset(10f);
             l.setYEntrySpace(0f);
-            l.setTextSize(8f);
+            l.setTextSize(12f);
 
             XAxis xAxis = chart.getXAxis();
-            //xAxis.setTypeface(tfLight);
+
             xAxis.setGranularity(1f);
             xAxis.setCenterAxisLabels(true);
-
+            xAxis.setAxisMinimum(0f);
+            xAxis.setAxisMaximum(lists.size());
 
             YAxis leftAxis = chart.getAxisLeft();
-            //leftAxis.setTypeface(tfLight);
             leftAxis.setValueFormatter(new LargeValueFormatter());
             leftAxis.setDrawGridLines(false);
             leftAxis.setSpaceTop(35f);
@@ -375,61 +439,76 @@ public class ReportFragment extends Fragment {
 
             chart.getAxisRight().setEnabled(false);
 
+            // (0.4 + 0.06) * 2 + 0.08 = 1.00 -> interval per "group"
             float groupSpace = 0.08f;
-            float barSpace = 0.03f; // x4 DataSet
-            float barWidth = 0.2f; // x4 DataSet
-            // (0.2 + 0.03) * 4 + 0.08 = 1.00 -> interval per "group"
+            float barSpace = 0.06f; // x2 DataSet
+            float barWidth = 0.4f; // x2 DataSet
 
-            // int groupCount = seekBarX.getProgress() + 1;
-            int startYear = 1980;
-            //int endYear = startYear + groupCount;
-
-            //tvX.setText(String.format(Locale.ENGLISH, "%d-%d", startYear, endYear));
-            // tvY.setText(String.valueOf(seekBarY.getProgress()));
 
             ArrayList<BarEntry> values1 = new ArrayList<>();
             ArrayList<BarEntry> values2 = new ArrayList<>();
-            ArrayList<BarEntry> values3 = new ArrayList<>();
-            ArrayList<BarEntry> values4 = new ArrayList<>();
 
-            //float randomMultiplier = seekBarY.getProgress() * 100000f;
 
-            for (int i = startYear; i < startYear + 10; i++) {
-                values1.add(new BarEntry(i, (float) (Math.random() * 100)));
-                values2.add(new BarEntry(i, (float) (Math.random() * 100)));
-                values3.add(new BarEntry(i, (float) (Math.random() * 100)));
-                values4.add(new BarEntry(i, (float) (Math.random() * 100)));
+            final List<String> dateList = new ArrayList<>();
+
+
+            String startDateString = startDateTextView.getText().toString();
+
+            try {
+                Date startDayBar = sdf.parse(startDateString.substring(startDateString.indexOf(":") + 2));
+                Date startDateForTag = sdf.parse(startDateString.substring(startDateString.indexOf(":") + 2));
+
+                for (int i = 0; i < lists.size(); i++) {
+                    Log.i("test", Arrays.toString(lists.get(i)));
+                    values1.add(new BarEntry(i, Float.parseFloat(lists.get(i)[0])));
+                    values2.add(new BarEntry(i, Float.parseFloat(lists.get(i)[1])));
+                    dateList.add(sdfBar.format(startDayBar));
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(startDayBar);
+                    calendar.add(Calendar.DATE, 1);
+                    startDayBar = calendar.getTime();
+                }
+
+
+                Log.i("titi", startDayBar.toString());
+                DayAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart);
+                chart.setDrawGridBackground(false);
+                XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter, startDateForTag);
+                mv.setChartView(chart); // For bounds control
+                chart.setMarker(mv); // Set the marker to the chart
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
+            BarDataSet set1, set2;
 
-            BarDataSet set1, set2, set3, set4;
 
             if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
 
                 set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
                 set2 = (BarDataSet) chart.getData().getDataSetByIndex(1);
-                set3 = (BarDataSet) chart.getData().getDataSetByIndex(2);
-                set4 = (BarDataSet) chart.getData().getDataSetByIndex(3);
+//                set3 = (BarDataSet) chart.getData().getDataSetByIndex(2);
+//                set4 = (BarDataSet) chart.getData().getDataSetByIndex(3);
                 set1.setValues(values1);
                 set2.setValues(values2);
-                set3.setValues(values3);
-                set4.setValues(values4);
+//                set3.setValues(values3);
+//                set4.setValues(values4);
                 chart.getData().notifyDataChanged();
                 chart.notifyDataSetChanged();
 
             } else {
                 // create 4 DataSets
-                set1 = new BarDataSet(values1, "Company A");
-                set1.setColor(Color.rgb(104, 241, 175));
-                set2 = new BarDataSet(values2, "Company B");
-                set2.setColor(Color.rgb(164, 228, 251));
-                set3 = new BarDataSet(values3, "Company C");
-                set3.setColor(Color.rgb(242, 247, 158));
-                set4 = new BarDataSet(values4, "Company D");
-                set4.setColor(Color.rgb(255, 102, 0));
+                set1 = new BarDataSet(values1, "Calories Consumed");
+                set1.setColor(Color.rgb(242, 247, 158));
+                set2 = new BarDataSet(values2, "Calories Burned");
+                set2.setColor(Color.rgb(255, 102, 0));
+//                set3 = new BarDataSet(values3, "Company C");
+//                set3.setColor(Color.rgb(242, 247, 158));
+//                set4 = new BarDataSet(values4, "Company D");
+//                set4.setColor(Color.rgb(255, 102, 0));
 
-                BarData data = new BarData(set1, set2, set3, set4);
-                data.setValueFormatter(new LargeValueFormatter());
+                BarData data = new BarData(set1, set2);
+                //data.setValueFormatter(new LargeValueFormatter());
                 //data.setValueTypeface(tfLight);
 
                 chart.setData(data);
@@ -439,24 +518,23 @@ public class ReportFragment extends Fragment {
             chart.getBarData().setBarWidth(barWidth);
 
             // restrict the x-axis range
-            chart.getXAxis().setAxisMinimum(startYear);
+            //chart.getXAxis().setAxisMinimum(startYear);
 
-            // barData.getGroupWith(...) is a helper that calculates the width each group needs based on the provided parameters
-            //chart.getXAxis().setAxisMaximum(startYear + chart.getBarData().getGroupWidth(groupSpace, barSpace) * 10);
-//            final String[] quarters = new String[]{"Q1", "Q2", "Q3", "Q4", "Q1", "Q2", "Q3", "Q4", "Q1", "Q2", "Q3","Q4", "Q1", "Q2", "Q3"};
-//            IAxisValueFormatter formatter = new IAxisValueFormatter() {
-//
-//                @Override
-//                public String getFormattedValue(float value, AxisBase axis) {
-//                    return quarters[(int) value];
-//                }
-//
-//
-//            };
-//
-//
-//            xAxis.setValueFormatter(formatter);
-            chart.groupBars(startYear, groupSpace, barSpace);
+
+            IAxisValueFormatter formatter = new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    if ((int) value >= 0) {
+                        if (dateList.size() > (int) value) {
+                            return dateList.get((int) value);
+                        }
+                    }
+                    return "";
+                }
+            };
+            xAxis.setValueFormatter(formatter);
+            chart.groupBars(0, groupSpace, barSpace);
+            chart.animateY(1000);
             chart.invalidate();
 
         }
