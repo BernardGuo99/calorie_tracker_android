@@ -647,7 +647,7 @@ public class SignUpActivity extends AppCompatActivity implements InterfaceForRes
             SharedPreferences.Editor spEditor = sharedPref.edit();
             spEditor.putString("user_id", appUser.getUserId());
             spEditor.putString("user_address", appUser.getAddress());
-            spEditor.putString("username", credential.getUserName());
+            spEditor.putString("username", appUser.getFirstname());
             spEditor.apply();
 
             return null;

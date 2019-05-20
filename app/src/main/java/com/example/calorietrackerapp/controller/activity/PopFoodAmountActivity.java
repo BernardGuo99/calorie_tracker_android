@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.calorietrackerapp.R;
 import com.example.calorietrackerapp.controller.asynctask.CreateConsumptionAsyncTask;
@@ -34,6 +36,12 @@ public class PopFoodAmountActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         getWindow().setLayout((int) (width * 0.8), (int) (height * 0.3));
+
+        Context context = getApplicationContext();
+        CharSequence text = "Added to Your Daily Diet!";
+        int duration = Toast.LENGTH_SHORT;
+        final Toast toast = Toast.makeText(context, text, duration);
+        toast.setGravity(Gravity.CENTER, 0, 0);
 
 
         amountText = findViewById(R.id.edit_ate_amount);
@@ -68,9 +76,8 @@ public class PopFoodAmountActivity extends AppCompatActivity {
                     Intent intent = new Intent(PopFoodAmountActivity.this, MainActivity.class);
                     intent.putExtra("From", "popFoodAmount");
                     startActivity(intent);
-
+                    toast.show();
                 }
-
             }
         });
     }

@@ -43,6 +43,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.ParseException;
@@ -315,6 +316,7 @@ public class ReportFragment extends Fragment {
 
             chart.setTransparentCircleColor(Color.WHITE);
             chart.setTransparentCircleAlpha(110);
+            chart.setUsePercentValues(true);
 
 
             if (floats != null) {
@@ -368,7 +370,7 @@ public class ReportFragment extends Fragment {
 
 
                 PieData pieData = new PieData(dataSet);
-
+                pieData.setValueFormatter(new PercentFormatter());
 
                 chart.setData(pieData);
                 chart.animateY(1000);

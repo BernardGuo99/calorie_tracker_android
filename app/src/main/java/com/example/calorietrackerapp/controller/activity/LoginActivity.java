@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println(appUser.getAddress());
                 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
                 spEditor.putString("user_address", appUser.getAddress());
-                spEditor.putString("username", params[0]);
+                spEditor.putString("username", appUser.getFirstname());
 
 
                 spEditor.apply();
