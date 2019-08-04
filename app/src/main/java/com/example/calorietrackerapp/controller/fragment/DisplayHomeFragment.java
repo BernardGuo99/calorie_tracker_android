@@ -20,7 +20,6 @@ import com.example.calorietrackerapp.controller.activity.PopGoalActivity;
 import com.example.calorietrackerapp.model.room_database.Step;
 import com.example.calorietrackerapp.model.room_database.StepDatabase;
 import com.example.calorietrackerapp.model.service.ConsumptionService;
-import com.example.calorietrackerapp.model.service.FoodService;
 import com.example.calorietrackerapp.model.service.UserService;
 
 import java.util.Date;
