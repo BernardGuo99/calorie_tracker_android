@@ -1,5 +1,9 @@
 package com.example.calorietrackerapp.model.google_custom_search;
 
+import android.content.res.Resources;
+
+import com.example.calorietrackerapp.R;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class NearbySearch {
-    private static final String API_KEY = "AIzaSyDFJ27R1zLR2iAZR8RtuEDg1yeb79ixcFY";
+    private static final String API_KEY = Resources.getSystem().getString(R.string.google_api_key);
     private static final String TYPE = "park";
 
 

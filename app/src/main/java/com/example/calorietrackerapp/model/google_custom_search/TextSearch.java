@@ -1,5 +1,9 @@
 package com.example.calorietrackerapp.model.google_custom_search;
 
+import android.content.res.Resources;
+
+import com.example.calorietrackerapp.R;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,8 +12,8 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class TextSearch {
-    private static final String API_KEY = "AIzaSyCmXvXxNTg7-1n5n-8s4Sf95qThIYULQsM";
-    private static final String SEARCH_ID_cx = "001228395695091314793:shn7wfnn4vm";
+    private static final String API_KEY = Resources.getSystem().getString(R.string.google_api_key);
+    private static final String SEARCH_ID_cx = Resources.getSystem().getString(R.string.google_search_engine_id);
 
     public static String search(String keyword, String[] params, String[] values) {
         keyword = keyword.replace(" ", "+");

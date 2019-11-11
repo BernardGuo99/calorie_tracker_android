@@ -2,6 +2,7 @@ package com.example.calorietrackerapp.model.google_custom_search;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
@@ -69,9 +70,9 @@ public class ImageSearch extends AsyncTask<String, String, String> {
 
     }
 
-    private String API_KEY = "AIzaSyCmXvXxNTg7-1n5n-8s4Sf95qThIYULQsM";
+    private String API_KEY = Resources.getSystem().getString(R.string.google_api_key);
     private String IMG_SIZE = "medium";
-    private String SEARCH_ENGINE_ID = "001228395695091314793:shn7wfnn4vm";
+    private String SEARCH_ENGINE_ID = Resources.getSystem().getString(R.string.google_search_engine_id);
     private String SEARCH_TYPE = "image";
     private String FILE_TYPE = "jpg";
 
